@@ -1,0 +1,40 @@
+:root{
+    --bg: #111827;
+    --card: #1F2937;
+    --card-alt: #26324a;
+    --field: #1B2536;
+    --border: #313d4f;
+    --text: #F9FAFB;
+    --text-sec: #9CA3AF;
+    --text-muted: #6B7280;
+
+    --save: #4C7EA8;
+    --save-h: #3E6C93;
+    --edit: #C9A24B;
+    --edit-h: #B58F3C;
+    --delete: #B4585C;
+    --delete-h: #9C4448;
+    --view: #6B8CAE;
+    --view-h: #5A7996;
+    --cancel: #4B5563;
+    --cancel-h: #3F4854;
+    --report: #4E9B76;
+    --report-h: #3F8563;
+
+    --radius: 10px;
+    --shadow: 0 4px 16px rgba(0,0,0,.28);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+}

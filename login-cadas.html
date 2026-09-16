@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<style>
+    :root {
+        --bg: #111827;
+        --card: #1F2937;
+        --card-alt: #26324a;
+        --field: #1B2536;
+        --border: #313d4f;
+        --text: #F9FAFB;
+        --text-sec: #9CA3AF;
+        --text-muted: #6B7280;
+
+        --save: #4C7EA8;
+        --save-h: #3E6C93;
+
+        --edit: #C9A24B;
+        --edit-h: #B58F3C;
+
+        --delete: #B4585C;
+        --delete-h: #9C4448;
+
+        --view: #6B8CAE;
+        --view-h: #5A7996;
+
+        --cancel: #4B5563;
+        --cancel-h: #3F4854;
+
+        --report: #4E9B76;
+        --report-h: #3F8563;
+
+        --radius: 10px;
+        --shadow: 0 4px 16px rgba(0,0,0,.28);
+    }
+
+    body {
+        background: var(--bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Inter', sans-serif;
+        margin-left: 1px;
+    }
+
+    .container {
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-sec);
+        font-size: 12px;
+        }
+
+    /* Telas */
+
+    .login {
+        display: block;
+    }
+
+    .cadastro {
+        display: none;
+    }
+
+    /* Campos */
+
+    .nome, .email, .senha, .confSenha {
+        flex-direction: column;
+        display: flex;
+        margin-left: 1px;
+        margin-bottom: 20px;
+    }
+
+    input {
+        background: var(--field);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px;
+        color: var(--text);
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--save);
+    }
+
+    input::placeholder {
+        color: var(--text-muted);
+    }
+
+    label {
+        margin-bottom: 8px;
+    }
+
+    /* Campo de senha */
+
+    .senha-input {
+        position: relative;
+        width: 100%;
+    }
+
+    .senha-input input {
+        width: 100%;
+        box-sizing: border-box;
+        padding-right: 40px;
+    }
+
+    .senha-input i {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--text-muted);
+        z-index: 10;
+    }
+
+    /* Botão */
+
+    button {
+        background: var(--save);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px;
+        color: var(--text);
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .auth-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    button:hover {
+        background: var(--save-h);
+    }
+
+    /* Textos */
+
+    p {
+        color: var(--text-sec);
+        font-size: 12px;
+        text-align: center;
+        margin-bottom: 25px;
+        margin-top: 10px;
+    }
+
+    h1 {
+        color: var(--text);
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    a {
+        color: var(--save);
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            <h1>Logo</h1>
+        </div>
+
+
+        <!-- ================= LOGIN ================= -->
+
+        <div class="login" id="tela-login">
+
+            <h1>Login do administrador</h1>
+
+            <p>Acesse o sistema para gerenciar famílias e doações.</p>
+
+            <div class="email">
+                <label for="emailLogin">Email</label>
+                <input type="email" name="email" id="emailLogin" placeholder="Digite seu email">
+            </div>
+
+
+            <div class="senha">
+
+                <label for="senhaLogin">Senha</label>
+
+                <div class="senha-input">
+                    <input type="password" name="senha" id="senhaLogin" placeholder="Digite sua senha">
+                    <i class="fa-solid fa-eye" id="alternarSenhaLogin"></i>
+                </div>
+
+            </div>
+
+            <button type="button" onclick="entrarSistema()">Entrar</button>
+
+            <div class="auth-footer">Ainda não tem cadastro?
+                <a onclick="mostrarCadastro()">Cadastrar administrador</a>
+            </div>
+
+        </div>
+
+
+        <!-- ================= CADASTRO ================= -->
+
+        <div class="cadastro" id="tela-cadastro">
+
+            <h1>Cadastro de Administrador</h1>
+
+            <p>Crie sua conta para acessar o sistema.</p>
+
+            <!-- Nome -->
+
+            <div class="nome">
+                <label for="nome">Nome</label>
+                <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo">
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="email">
+                <label for="emailCadastro">Email</label>
+                <input type="email" name="email" id="emailCadastro" placeholder="Digite seu email">
+            </div>
+
+
+            <!-- Senha -->
+
+            <div class="senha">
+
+                <label for="senhaCadastro">Senha</label>
+
+                <div class="senha-input">
+                    <input type="password" name="senha" id="senhaCadastro" placeholder="Digite sua senha">
+                    <i class="fa-solid fa-eye" id="alternarSenhaCadastro"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Confirmar senha -->
+
+            <div class="confSenha">
+
+                <label for="confSenha">Confirmar Senha</label>
+
+                <div class="senha-input">
+                    <input type="password" name="confSenha" id="confSenha" placeholder="Confirme sua senha">
+                    <i class="fa-solid fa-eye" id="alternarConfSenha"></i>
+                </div>
+
+            </div>
+
+
+            <button type="button" onclick="mostrarLogin()">Cadastrar</button>
+
+
+            <div class="auth-footer">Já possui uma conta?
+                <a onclick="mostrarLogin()">Entrar</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        // ==============================
+        // TROCA DE TELAS
+        // ==============================
+
+        function mostrarCadastro() {
+
+            document.querySelector('.login').style.display = 'none';
+            document.querySelector('.cadastro').style.display = 'block';
+
+        }
+
+
+        function mostrarLogin() {
+
+            document.querySelector('.cadastro').style.display = 'none';
+            document.querySelector('.login').style.display = 'block';
+
+        }
+
+
+        // ==============================
+        // ENTRAR NO SISTEMA
+        // ==============================
+
+        function entrarSistema() {
+
+            // Por enquanto volta/mantém na tela de login.
+            // Depois você pode colocar aqui a função
+            // que abre o dashboard.
+
+            mostrarLogin();
+
+        }
+
+
+        // ==============================
+        // MOSTRAR / OCULTAR SENHA - LOGIN
+        // ==============================
+
+        const senhaLogin = document.getElementById('senhaLogin');
+        const alternarSenhaLogin = document.getElementById('alternarSenhaLogin');
+
+        alternarSenhaLogin.addEventListener('click', function () {
+
+            if (senhaLogin.type === 'password') {
+
+                senhaLogin.type = 'text';
+
+                alternarSenhaLogin.classList.remove('fa-eye');
+                alternarSenhaLogin.classList.add('fa-eye-slash');
+
+            } else {
+
+                senhaLogin.type = 'password';
+
+                alternarSenhaLogin.classList.remove('fa-eye-slash');
+                alternarSenhaLogin.classList.add('fa-eye');
+
+            }
+
+        });
+
+
+        // ==============================
+        // MOSTRAR / OCULTAR SENHA - CADASTRO
+        // ==============================
+
+        const senhaCadastro = document.getElementById('senhaCadastro');
+        const alternarSenhaCadastro = document.getElementById('alternarSenhaCadastro');
+
+        alternarSenhaCadastro.addEventListener('click', function () {
+
+            if (senhaCadastro.type === 'password') {
+
+                senhaCadastro.type = 'text';
+
+                alternarSenhaCadastro.classList.remove('fa-eye');
+                alternarSenhaCadastro.classList.add('fa-eye-slash');
+
+            } else {
+
+                senhaCadastro.type = 'password';
+
+                alternarSenhaCadastro.classList.remove('fa-eye-slash');
+                alternarSenhaCadastro.classList.add('fa-eye');
+
+            }
+
+        });
+
+
+        // ==============================
+        // MOSTRAR / OCULTAR CONFIRMAÇÃO
+        // ==============================
+
+        const confSenha = document.getElementById('confSenha');
+        const alternarConfSenha = document.getElementById('alternarConfSenha');
+
+        alternarConfSenha.addEventListener('click', function () {
+
+            if (confSenha.type === 'password') {
+
+                confSenha.type = 'text';
+
+                alternarConfSenha.classList.remove('fa-eye');
+                alternarConfSenha.classList.add('fa-eye-slash');
+
+            } else {
+
+                confSenha.type = 'password';
+
+                alternarConfSenha.classList.remove('fa-eye-slash');
+                alternarConfSenha.classList.add('fa-eye');
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
