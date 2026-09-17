@@ -11,27 +11,27 @@
         <ul id="side-itens">
 
             <li class="side-item active">
-                <a href="" data-title="Dashboard">
+                <a href="dashboard.html" data-title="Dashboard">
                     <i class="fa-solid fa-border-all"></i>
                     <span class="item-description">Dashboard</span>
                 </a>
             </li>
 
-            <li class="side-item">
+            <li class="side-item" onclick="openPopup('popup-familias')">
                 <a href="" data-title="Famílias">
                     <i class="fa-solid fa-people-group"></i>
                     <span class="item-description">Famílias</span>
                 </a>
             </li>
 
-            <li class="side-item">
+            <li class="side-item" onclick="openPopup('popup-doacoes')">
                 <a href="" data-title="Doações">
                     <i class="fa-solid fa-cube"></i>
                     <span class="item-description">Doações</span>
                 </a>
             </li>
 
-            <li class="side-item">
+            <li class="side-item" onclick="openPopup('popup-entrega')">
                 <a href="" data-title="Entrega de Doação">
                     <i class="fa-solid fa-truck"></i>
                     <span class="item-description">Entrega de Doação</span>
@@ -78,7 +78,7 @@
 
         </div>
 
-        <button class="btn-sair">Sair</button>
+        <button class="btn-sair" onclick="openPopupSair('popup-sair')">Sair</button>
 
     </div>
 

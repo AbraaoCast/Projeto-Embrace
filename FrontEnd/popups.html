@@ -1,0 +1,95 @@
+<!-- Popup sidebar -->
+
+<div class="overlay" id="popup-familias" onclick="closeOnBackdrop(event,'popup-familias')">
+    <div class="popup-menu">
+        <div class="popup-menu-title">Famílias</div>
+        <button class="popup-option" onclick="closePopup('popup-familias');">
+            <div class="opt-icon"><i class="fa-solid fa-plus" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Cadastrar família</div>
+                <div class="opt-sub">Adicionar uma nova família ao sistema</div>
+            </div>
+        </button>
+
+        <button class="popup-option" onclick="closePopup('popup-familias');">
+            <div class="opt-icon"><i class="fa-solid fa-folder-closed" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Gerenciar famílias</div>
+                <div class="opt-sub">Consultar, editar e excluir cadastros</div>
+            </div>
+        </button>
+    </div>
+</div>
+
+<div class="overlay" id="popup-doacoes" onclick="closeOnBackdrop(event,'popup-doacoes')">
+    <div class="popup-menu">
+        <div class="popup-menu-title">Doaçôes</div>
+        <button class="popup-option" onclick="closePopup('popup-doacoes');">
+            <div class="opt-icon"><i class="fa-solid fa-plus" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Cadastrar doação</div>
+                <div class="opt-sub">Registrar uma nova doação recebida</div>
+            </div>
+        </button>
+
+        <button class="popup-option" onclick="closePopup('popup-doacoes');">
+            <div class="opt-icon"><i class="fa-solid fa-folder-closed" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Gerenciar doações</div>
+                <div class="opt-sub">Consultar, editar e excluir doações</div>
+            </div>
+        </button>
+    </div>
+</div>
+
+<div class="overlay" id="popup-entrega" onclick="closeOnBackdrop(event,'popup-entrega')">
+    <div class="popup-menu">
+        <div class="popup-menu-title">Entrega de Doação</div>
+        <button class="popup-option" onclick="closePopup('popup-entrega');">
+            <div class="opt-icon"><i class="fa-solid fa-plus" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Registrar entrega</div>
+                <div class="opt-sub">Vincular uma doação a uma família</div>
+            </div>
+        </button>
+
+        <button class="popup-option" onclick="closePopup('popup-entrega');">
+            <div class="opt-icon"><i class="fa-solid fa-folder-closed" style="color: rgb(255, 255, 255);"></i></div>
+            <div>
+                <div class="opt-title">Consultar entregas</div>
+                <div class="opt-sub">Ver o histórico de entregas realizadas</div>
+            </div>
+        </button>
+    </div>
+</div>
+
+<!-- Popups de confirmação -->
+
+<div class="overlay" id="popup-sair" onclick="closeOnBackdrop(event,'popup-sair')">
+    <div class="popup-box">
+        <div class="icon-row">
+            <div class="popup-icon" style="background:rgba(75,85,99,0.3); color:var(--text-sec);"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+            <h3>Sair do sistema</h3>
+        </div>
+        <p>Deseja realmente sair do sistema?</p>
+        <div class="popup-actions">
+            <button class="btn btn-cancel" onclick="closePopup('popup-sair')">Cancelar</button>
+            <button class="btn btn-popup-sair" onclick="closePopup('popup-sair')">Sair</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="popup-excluir">
+    <div class="popup-box">
+        <div class="icon-row">
+            <div class="popup-icon" style="background:rgba(180,88,92,0.18); color:var(--delete);"><i class="fa-regular fa-trash-can"></i></div>
+            <h3>Excluir registro</h3>
+        </div>
+        <p>Tem certeza de que deseja excluir este cadastro? Essa ação não poderá ser desfeita.</p>
+        <div class="popup-actions">
+            <button class="btn btn-cancel" onclick="closePopup('popup-excluir')">Cancelar</button>
+            <button class="btn btn-excluir" id="popup-excluir-confirm" onclick="performDelete();">Excluir</button>
+        </div>
+    </div>
+</div>
+

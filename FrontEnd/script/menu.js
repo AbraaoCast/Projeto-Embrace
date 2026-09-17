@@ -43,3 +43,18 @@ fetch('menu.html')
         });
 
     });
+
+// CARREGAR POPUPS    
+
+fetch('popups.html')
+    .then(response => response.text())
+    .then(data => {
+
+        document.getElementById('popup-slot').innerHTML = data;
+
+    });    
+
+function openPopup(id){ document.getElementById(id).classList.add('active'); }
+function closePopup(id){ document.getElementById(id).classList.remove('active'); }
+function openPopupSair(id){ document.getElementById(id).classList.add('active'); }
+function closeOnBackdrop(ev,id){ if(ev.target.id===id) closePopup(id); }    
