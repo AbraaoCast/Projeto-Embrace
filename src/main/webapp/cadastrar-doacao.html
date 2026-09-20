@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Doação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/menu.css">
+    <link rel="stylesheet" href="style/popups.css">
+    <link rel="stylesheet" href="style/cadastrar.css">
+</head>
+<body>
+
+    <div id="sidebar-slot"></div>
+
+    <div id="popup-slot"></div>
+
+    <div class="main-content">
+
+        <div id="topbar-slot"></div>
+
+        <section class="conteiner" id="page-cadastrar-doacao">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Cadastrar Doação</h1>
+                    <p class="page-subtitle">Registre uma nova doação recebida pela organização.</p>
+                </div>
+                <button class="btn btn-save" onclick="showPage('gerenciar-doacoes')">Gerenciar Doações</button>    
+            </div>
+
+            <div class="form-card">
+                <div class="field-row">
+                    <div class="field">
+                        <label>Tipo da doação</label>
+                        <select>
+                            <option>Alimentos</option>
+                            <option>Roupas</option>
+                            <option>Produtos de higiene</option>
+                            <option>Material escolar</option>
+                            <option>Outros</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Quantidade</label>
+                        <input type="text" placeholder="Ex: 50 unidades">
+                    </div>
+
+                    <div class="field">
+                        <label>Data da doação</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Descrição</label>
+                    <input type="text" placeholder="Descreva os itens doados">
+                </div>
+
+                <div class="field">
+                    <label>Observação</label>
+                    <textarea rows="3" placeholder="Informações adicionais (opcional)"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-save" onclick="showToast('Doação cadastrada com sucesso.'); showPage('gerenciar-doacoes');">Confirmar Cadastro</button>
+                    <button class="btn btn-cancel" onclick="showPage('gerenciar-doacoes')">Cancelar</button>
+                </div>
+            </div>
+        </section>
+
+    </div>    
+    
+    <script src="script/menu.js"></script>
+</body>
+</html>

@@ -1,11 +1,13 @@
+// Função para apresentar os dados das famílias cadastradas na pag. Gerenciar famílias
 async function carregarFamilias() {
 
     const tbody = document.getElementById('tbody-familias');
 
     try {
         const resposta = await fetch('http://localhost:8080/api/familias');
-        const familias = await resposta.json();
+        if (!resposta.ok) throw new Error('Erro HTTP: ' + resposta.status);
 
+        const familias = await resposta.json();
         tbody.innerHTML = '';
 
         if (familias.length === 0) {
@@ -14,9 +16,8 @@ async function carregarFamilias() {
         }
 
         familias.forEach(familia => {
-
             const tr = document.createElement('tr');
-            tr.dataset.id = familia.id;   // guarda o id para editar/excluir
+            tr.dataset.id = familia.id;
 
             tr.innerHTML = `
                 <td>${familia.titular}</td>
@@ -27,12 +28,11 @@ async function carregarFamilias() {
                 <td>${familia.dataCadastro}</td>
                 <td>
                     <div class="row-actions">
-                        <button class="btn btn-edit btn-sm" onclick="editarFamilia(${familia.id})">Editar</button>
-                        <button class="btn btn-delete btn-sm" onclick="confirmarExclusao(${familia.id})">Excluir</button>
+                        <button class="btn-editar btn-sm" onclick="editarFamilia(${familia.id})">Editar</button>
+                        <button class="btn-excluir btn-sm" onclick="confirmarExclusaoFamilia(${familia.id})">Excluir</button>
                     </div>
                 </td>
             `;
-
             tbody.appendChild(tr);
         });
 
@@ -41,5 +41,8 @@ async function carregarFamilias() {
         console.error(erro);
     }
 }
+
+function editarFamilia(id) { /* ... */ }
+function confirmarExclusaoFamilia(id) { /* ... */ }
 
 document.addEventListener('DOMContentLoaded', carregarFamilias);
