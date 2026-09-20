@@ -1,0 +1,68 @@
+h1 {
+    color: var(--text);
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+p {
+    color: var(--text-sec);
+    font-size: 12.5px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.conteiner {
+    width: 100%;
+    padding: 20px;
+}
+
+.page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom:22px; flex-wrap:wrap; gap:12px;
+}
+
+.form-card {
+    background:var(--card); border:1px solid var(--border); 
+    border-radius:var(--radius); padding:28px 32px; max-width:760px;
+}
+
+.form-actions {
+    display:flex; gap:12px; margin-top:8px; 
+    padding-top:18px; border-top:1px solid var(--border);
+}
+
+.field {
+    margin-bottom:18px;
+}
+
+.field label {
+    display:block;font-size:12.5px;font-weight:500;color:var(--text-sec);
+    margin-bottom:6px;
+}
+
+.field input, .field select, .field textarea {
+    width:100%; background:var(--field); border:1px solid var(--border);
+    color:var(--text); padding:11px 13px; border-radius:8px;
+    font-size:14px; outline:none; transition:border-color .15s ease;
+}
+
+.field input::placeholder, .field textarea::placeholder {
+    color:var(--text-muted);
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color:var(--save);
+}
+
+.field-row {
+    display:flex; gap:14px;
+}
+
+.field-row .field {
+    flex:1;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(45%) sepia(8%) saturate(500%) hue-rotate(180deg) brightness(90%);
+    cursor: pointer;
+}

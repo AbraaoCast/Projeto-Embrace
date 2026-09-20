@@ -173,31 +173,6 @@
         color: var(--save);
         cursor: pointer;
     }
-
-    .auth-message {
-        display: none;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px;
-        margin: 16px 0 4px;
-        border-radius: 6px;
-        text-align: center;
-        line-height: 1.4;
-    }
-
-    .auth-message.error {
-        display: block;
-        color: #FCA5A5;
-        background: rgba(180, 88, 92, 0.18);
-        border: 1px solid var(--delete);
-    }
-
-    .auth-message.success {
-        display: block;
-        color: #A7F3D0;
-        background: rgba(78, 155, 118, 0.18);
-        border: 1px solid var(--report);
-    }
 </style>
 
 <body>
@@ -208,12 +183,10 @@
             <h1>Logo</h1>
         </div>
 
-        <div id="auth-message" class="auth-message" role="alert" aria-live="polite"></div>
-
 
         <!-- ================= LOGIN ================= -->
 
-        <form class="login" id="tela-login" action="auth/login" method="post">
+        <div class="login" id="tela-login">
 
             <h1>Login do administrador</h1>
 
@@ -221,8 +194,7 @@
 
             <div class="email">
                 <label for="emailLogin">Email</label>
-                <input type="email" name="email" id="emailLogin" placeholder="Digite seu email"
-                       maxlength="254" autocomplete="email" required>
+                <input type="email" name="email" id="emailLogin" placeholder="Digite seu email">
             </div>
 
 
@@ -231,25 +203,24 @@
                 <label for="senhaLogin">Senha</label>
 
                 <div class="senha-input">
-                    <input type="password" name="senha" id="senhaLogin" placeholder="Digite sua senha"
-                           maxlength="128" autocomplete="current-password" required>
+                    <input type="password" name="senha" id="senhaLogin" placeholder="Digite sua senha">
                     <i class="fa-solid fa-eye" id="alternarSenhaLogin"></i>
                 </div>
 
             </div>
 
-            <button type="submit">Entrar</button>
+            <button type="button" onclick="entrarSistema()">Entrar</button>
 
             <div class="auth-footer">Ainda não tem cadastro?
                 <a onclick="mostrarCadastro()">Cadastrar administrador</a>
             </div>
 
-        </form>
+        </div>
 
 
         <!-- ================= CADASTRO ================= -->
 
-        <form class="cadastro" id="tela-cadastro" action="auth/register" method="post">
+        <div class="cadastro" id="tela-cadastro">
 
             <h1>Cadastro de Administrador</h1>
 
@@ -259,8 +230,7 @@
 
             <div class="nome">
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo"
-                       maxlength="100" autocomplete="name" required>
+                <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo">
             </div>
 
 
@@ -268,8 +238,7 @@
 
             <div class="email">
                 <label for="emailCadastro">Email</label>
-                <input type="email" name="email" id="emailCadastro" placeholder="Digite seu email"
-                       maxlength="254" autocomplete="email" required>
+                <input type="email" name="email" id="emailCadastro" placeholder="Digite seu email">
             </div>
 
 
@@ -280,8 +249,7 @@
                 <label for="senhaCadastro">Senha</label>
 
                 <div class="senha-input">
-                    <input type="password" name="senha" id="senhaCadastro" placeholder="Digite sua senha"
-                           minlength="8" maxlength="128" autocomplete="new-password" required>
+                    <input type="password" name="senha" id="senhaCadastro" placeholder="Digite sua senha">
                     <i class="fa-solid fa-eye" id="alternarSenhaCadastro"></i>
                 </div>
 
@@ -295,22 +263,21 @@
                 <label for="confSenha">Confirmar Senha</label>
 
                 <div class="senha-input">
-                    <input type="password" name="confSenha" id="confSenha" placeholder="Confirme sua senha"
-                           minlength="8" maxlength="128" autocomplete="new-password" required>
+                    <input type="password" name="confSenha" id="confSenha" placeholder="Confirme sua senha">
                     <i class="fa-solid fa-eye" id="alternarConfSenha"></i>
                 </div>
 
             </div>
 
 
-            <button type="submit">Cadastrar</button>
+            <button type="button" onclick="mostrarLogin()">Cadastrar</button>
 
 
             <div class="auth-footer">Já possui uma conta?
                 <a onclick="mostrarLogin()">Entrar</a>
             </div>
 
-        </form>
+        </div>
 
     </div>
 
@@ -334,6 +301,21 @@
 
             document.querySelector('.cadastro').style.display = 'none';
             document.querySelector('.login').style.display = 'block';
+
+        }
+
+
+        // ==============================
+        // ENTRAR NO SISTEMA
+        // ==============================
+
+        function entrarSistema() {
+
+            // Por enquanto volta/mantém na tela de login.
+            // Depois você pode colocar aqui a função
+            // que abre o dashboard.
+
+            mostrarLogin();
 
         }
 
@@ -420,44 +402,6 @@
             }
 
         });
-
-
-        // ==============================
-        // MENSAGENS DO BACKEND
-        // ==============================
-
-        const query = new URLSearchParams(window.location.search);
-        const errorMessages = {
-            required_fields: 'Preencha todos os campos obrigatórios.',
-            name_too_long: 'O nome deve possuir no máximo 100 caracteres.',
-            invalid_email: 'Informe um e-mail válido.',
-            weak_password: 'A senha deve ter entre 8 e 128 caracteres, com pelo menos uma letra e um número.',
-            password_mismatch: 'As senhas não coincidem.',
-            duplicate_email: 'Já existe uma conta cadastrada com este e-mail.',
-            login_required: 'Informe seu e-mail e senha.',
-            invalid_credentials: 'E-mail ou senha inválidos.',
-            session_required: 'Faça login para acessar o sistema.',
-            internal: 'Não foi possível concluir a operação. Tente novamente.'
-        };
-        const successMessages = {
-            registered: 'Cadastro realizado com sucesso. Agora você pode entrar.',
-            logged_out: 'Você saiu do sistema com segurança.'
-        };
-        const messageElement = document.getElementById('auth-message');
-        const errorCode = query.get('error');
-        const successCode = query.get('success');
-
-        if (query.get('mode') === 'register') {
-            mostrarCadastro();
-        }
-
-        if (errorCode && errorMessages[errorCode]) {
-            messageElement.textContent = errorMessages[errorCode];
-            messageElement.classList.add('error');
-        } else if (successCode && successMessages[successCode]) {
-            messageElement.textContent = successMessages[successCode];
-            messageElement.classList.add('success');
-        }
 
     </script>
 

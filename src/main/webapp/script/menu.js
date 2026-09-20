@@ -15,22 +15,6 @@ fetch('menu.html')
         document.getElementById('sidebar-slot').replaceWith(sidebar);
         document.getElementById('topbar-slot').replaceWith(topbar);
 
-        // DADOS DO ADMINISTRADOR AUTENTICADO
-
-        fetch('api/session')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Sessão indisponível');
-                }
-                return response.json();
-            })
-            .then(administrador => {
-                document.getElementById('nome-admin').textContent = administrador.nome;
-            })
-            .catch(() => {
-                window.location.href = 'login-cadas.html?error=session_required';
-            });
-
 
         // ABRIR E FECHAR SIDEBAR
 
@@ -43,20 +27,9 @@ fetch('menu.html')
 
         // TÍTULO DA PÁGINA
 
-        const linksMenu = document.querySelectorAll('.side-item a');
         const tituloPagina = document.getElementById('titulo-pagina');
 
-        linksMenu.forEach(link => {
-
-            link.addEventListener('click', function (event) {
-
-                event.preventDefault();
-
-                tituloPagina.textContent = this.dataset.title;
-
-            });
-
-        });
+        tituloPagina.textContent = document.title;
 
     });
 
@@ -73,4 +46,4 @@ fetch('popups.html')
 function openPopup(id){ document.getElementById(id).classList.add('active'); }
 function closePopup(id){ document.getElementById(id).classList.remove('active'); }
 function openPopupSair(id){ document.getElementById(id).classList.add('active'); }
-function closeOnBackdrop(ev,id){ if(ev.target.id===id) closePopup(id); }
+function closeOnBackdrop(ev,id){ if(ev.target.id===id) closePopup(id); }    

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Família</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/menu.css">
+    <link rel="stylesheet" href="style/popups.css">
+    <link rel="stylesheet" href="style/cadastrar-fami.css">
+</head>
+<body>
+    <div id="sidebar-slot"></div>
+
+    <div id="popup-slot"></div>
+
+    <div class="main-content">
+
+        <div id="topbar-slot"></div>
+
+        <section class="conteiner" id="page-cadastrar-familia">
+            <div class="page-header">
+                <div>
+                    <h1>Cadastrar Família</h1>
+                    <p>Preencha os dados da família em situação de vulnerabilidade.</p>
+                </div>
+                <button class="btn btn-save" onclick="showPage('gerenciar-familias')">Gerenciar famílias</button>
+            </div>
+        
+            <div class="form-card">
+                <div class="field">
+                    <label>Nome do titular da família</label>
+                    <input type="text" placeholder="Nome completo do titular">
+                </div>
+                
+                <div class="field-row">
+                    <div class="field">
+                        <label>CPF do titular</label>
+                        <input type="text" placeholder="000.000.000-00">
+                    </div>
+                    <div class="field">
+                        <label>Quantidade de membros da família</label>
+                        <input type="number" placeholder="Ex: 4">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field" style="flex:2;">
+                        <label>Endereço</label>
+                        <input type="text" placeholder="Rua, avenida...">
+                    </div>
+                    <div class="field">
+                        <label>Número</label>
+                        <input type="text" placeholder="Nº">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Bairro</label>
+                        <input type="text" placeholder="Bairro">
+                    </div>
+                    <div class="field">
+                        <label>Cidade</label>
+                        <input type="text" placeholder="Cidade">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Telefone</label>
+                        <input type="text" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="field">
+                        <label>Data do cadastro</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-save" onclick="showToast('Família cadastrada com sucesso.'); showPage('gerenciar-familias');">Confirmar Cadastro</button>
+                    <button class="btn btn-cancel" onclick="showPage('gerenciar-familias')">Cancelar</button>
+                </div>
+            </div>
+        </section>
+    </div>    
+    
+    <script src="script/menu.js"></script>
+</body>
+</html>

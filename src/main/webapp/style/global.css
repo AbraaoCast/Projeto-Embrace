@@ -38,3 +38,47 @@ body {
     height: 100vh;
     display: flex;
 }
+
+.btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:11px 18px; border-radius:8px; border: none; font-size:14px; 
+    font-weight:500; transition:background-color .15s ease, transform .05s ease;
+    white-space:nowrap; cursor: pointer;
+}
+
+.btn:active {
+    transform:scale(0.94);
+}
+
+.btn-cancel {
+    background:var(--cancel); color:var(--text);
+}
+
+.btn-cancel:hover {
+    background:var(--cancel-h);
+}
+
+.btn-save {
+    background:var(--save); color:#fff;
+}
+
+.btn-save:hover {
+    background:var(--save-h);
+}
+
+.btn-sm{
+    padding:7px 12px; font-size:12.5px; border-radius:7px;
+    border: none; transition:background-color .15s ease, transform .05s ease;
+}
+
+.btn-sm:active {
+    transform:scale(0.94);
+}
+
+.btn-editar {
+    background:var(--edit); color:#1a1400;
+}
+
+.btn-editar:hover {
+    background:var(--edit-h);
+}
