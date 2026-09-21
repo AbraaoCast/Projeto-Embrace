@@ -27,7 +27,7 @@ async function carregarDoacoes() {
                 <td>${doacao.observacao ?? '—'}</td>
                 <td>
                     <div class="row-actions">
-                        <button class="btn-editar btn-sm" onclick="editarDoacao(${doacao.id})">Editar</button>
+                        
                         <button class="btn-excluir btn-sm" onclick="confirmarExclusaoDoacao(${doacao.id})">Excluir</button>
                     </div>
                 </td>

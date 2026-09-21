@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Entrega</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/menu.css">
+    <link rel="stylesheet" href="style/popups.css">
+    <link rel="stylesheet" href="style/cadastrar.css">
+</head>
+<body>
+
+    <div id="sidebar-slot"></div>
+
+    <div id="popup-slot"></div>
+
+    <div class="main-content">
+
+        <div id="topbar-slot"></div>
+
+        <section class="conteiner" id="page-registrar-entrega">
+            <div class="page-header">
+                <div>
+                    <h1>Registrar Entrega de Doação</h1>
+                    <p>Registre que uma família recebeu uma doação.</p>
+                </div>
+                <button type="button" class="btn btn-save" onclick="window.location.href='consultar-entregas.html'">Consultar entregas</button>
+            </div>
+
+            <div class="form-card">
+                <div class="field-row">
+                    <div class="field">
+                        <label>Família</label>
+                        <select>
+                            <option>Selecione a família</option>
+                        </select>    
+                    </div>
+
+                    <div class="field">
+                        <label>Doação</label>
+                        <select>
+                            <option>Selecione a doação</option>
+            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Quantidade entregue</label>
+                        <input type="text" placeholder="Ex: 1 cesta, 5 peças...">
+                    </div>
+
+                    <div class="field">
+                        <label>Data da entrega</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Observação</label>
+                    <textarea rows="3" placeholder="Informações adicionais (opcional)"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-save" onclick="showToast('Entrega registrada com sucesso.'); showPage('consultar-entregas');">Registrar Entrega</button>
+                    <button class="btn btn-cancel" onclick="showPage('consultar-entregas')">Cancelar</button>
+                </div>
+            </div>
+            
+        </section>
+    </div>        
+    
+    <script src="script/menu.js"></script>
+</body>
+</html>

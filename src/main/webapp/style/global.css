@@ -82,3 +82,19 @@ body {
 .btn-editar:hover {
     background:var(--edit-h);
 }
+
+.btn-visualizar {
+    background:var(--view); color:#fff;
+}
+
+.btn-visualizar:hover {
+    background:var(--view-h);
+}
+
+.btn-download {
+    background:var(--report); color:#fff;
+}
+
+.btn-download:hover {
+    background:var(--report-h);
+}
