@@ -73,8 +73,10 @@
         </div>
         <p>Deseja realmente sair do sistema?</p>
         <div class="popup-actions">
-            <button class="btn btn-cancel" onclick="closePopup('popup-sair')">Cancelar</button>
-            <button class="btn btn-popup-sair" onclick="closePopup('popup-sair')">Sair</button>
+            <button type="button" class="btn btn-cancel" onclick="closePopup('popup-sair')">Cancelar</button>
+            <form action="auth/logout" method="post">
+                <button type="submit" class="btn btn-popup-sair">Sair</button>
+            </form>
         </div>
     </div>
 </div>
