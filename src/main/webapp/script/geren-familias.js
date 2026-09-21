@@ -1,48 +1,157 @@
-// Função para apresentar os dados das famílias cadastradas na pag. Gerenciar famílias
-async function carregarFamilias() {
+let pendingFamilyDeletionId = null;
 
+const familyMessages = {
+    created: 'Família cadastrada com sucesso.',
+    updated: 'Dados da família atualizados com sucesso.',
+    family_not_found: 'Família não encontrada.',
+    family_has_related_records: 'Não é possível excluir esta família porque existem registros vinculados a ela.',
+    invalid_id: 'A família informada é inválida.',
+    internal: 'Não foi possível concluir a operação. Tente novamente.'
+};
+
+async function carregarFamilias() {
     const tbody = document.getElementById('tbody-familias');
+    tbody.replaceChildren();
 
     try {
-        const resposta = await fetch('http://localhost:8080/api/familias');
-        if (!resposta.ok) throw new Error('Erro HTTP: ' + resposta.status);
+        const response = await fetch('api/familias', { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
-        const familias = await resposta.json();
-        tbody.innerHTML = '';
-
+        const familias = await response.json();
         if (familias.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7">Nenhuma família cadastrada.</td></tr>';
+            const row = tbody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 7;
+            cell.textContent = 'Nenhuma família cadastrada.';
             return;
         }
 
-        familias.forEach(familia => {
-            const tr = document.createElement('tr');
-            tr.dataset.id = familia.id;
-
-            tr.innerHTML = `
-                <td>${familia.titular}</td>
-                <td>${familia.cpf}</td>
-                <td>${familia.quantidadeMembros}</td>
-                <td>${familia.telefone}</td>
-                <td>${familia.endereco}, ${familia.numero} — ${familia.bairro}, ${familia.cidade}</td>
-                <td>${familia.dataCadastro}</td>
-                <td>
-                    <div class="row-actions">
-                        <button class="btn-editar btn-sm" onclick="editarFamilia(${familia.id})">Editar</button>
-                        <button class="btn-excluir btn-sm" onclick="confirmarExclusaoFamilia(${familia.id})">Excluir</button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-
-    } catch (erro) {
-        tbody.innerHTML = '<tr><td colspan="7">Erro ao carregar as famílias.</td></tr>';
-        console.error(erro);
+        familias.forEach(familia => tbody.appendChild(criarLinhaFamilia(familia)));
+    } catch (error) {
+        const row = tbody.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 7;
+        cell.textContent = 'Erro ao carregar as famílias.';
+        console.error(error);
     }
 }
 
-function editarFamilia(id) { /* ... */ }
-function confirmarExclusaoFamilia(id) { /* ... */ }
+function criarLinhaFamilia(familia) {
+    const row = document.createElement('tr');
+    row.dataset.id = familia.id;
 
-document.addEventListener('DOMContentLoaded', carregarFamilias);
+    adicionarCelula(row, familia.nomeResponsavel);
+    adicionarCelula(row, formatarCpf(familia.cpf));
+    adicionarCelula(row, String(familia.quantidadeMembros));
+    adicionarCelula(row, familia.telefone);
+    adicionarCelula(row, formatarEndereco(familia));
+    adicionarCelula(row, formatarData(familia.dataCadastro));
+
+    const actionCell = row.insertCell();
+    const actions = document.createElement('div');
+    actions.className = 'row-actions';
+
+    const editButton = document.createElement('button');
+    editButton.type = 'button';
+    editButton.className = 'btn-editar btn-sm';
+    editButton.textContent = 'Editar';
+    editButton.addEventListener('click', () => editarFamilia(familia.id));
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.className = 'btn-excluir btn-sm';
+    deleteButton.textContent = 'Excluir';
+    deleteButton.addEventListener('click', () => confirmarExclusaoFamilia(familia.id));
+
+    actions.append(editButton, deleteButton);
+    actionCell.appendChild(actions);
+    return row;
+}
+
+function adicionarCelula(row, value) {
+    const cell = row.insertCell();
+    cell.textContent = value;
+}
+
+function formatarEndereco(familia) {
+    const numero = familia.numeroResidencia ? `, ${familia.numeroResidencia}` : '';
+    return `${familia.logradouro}${numero} — ${familia.bairro}, ${familia.cidade}`;
+}
+
+function formatarCpf(cpf) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
+function formatarData(value) {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString('pt-BR');
+}
+
+function editarFamilia(id) {
+    window.location.href = `editar-fami.html?id=${encodeURIComponent(id)}`;
+}
+
+function confirmarExclusaoFamilia(id) {
+    pendingFamilyDeletionId = id;
+    openPopup('popup-excluir');
+}
+
+async function performDelete() {
+    if (!pendingFamilyDeletionId) return;
+
+    const id = pendingFamilyDeletionId;
+    pendingFamilyDeletionId = null;
+
+    try {
+        const response = await fetch('familias/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: new URLSearchParams({ id: String(id) })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || familyMessages.internal);
+        }
+
+        closePopup('popup-excluir');
+        mostrarMensagem('Família excluída com sucesso.', 'success');
+        await carregarFamilias();
+    } catch (error) {
+        closePopup('popup-excluir');
+        mostrarMensagem(error.message || familyMessages.internal, 'error');
+    }
+}
+
+function filtrarFamilias(term) {
+    const normalizedTerm = term.trim().toLocaleLowerCase('pt-BR');
+    document.querySelectorAll('#tbody-familias tr[data-id]').forEach(row => {
+        row.hidden = !row.textContent.toLocaleLowerCase('pt-BR').includes(normalizedTerm);
+    });
+}
+
+function mostrarMensagem(message, type) {
+    const element = document.getElementById('family-message');
+    element.textContent = message;
+    element.className = `page-message ${type}`;
+}
+
+function mostrarMensagemDaUrl() {
+    const query = new URLSearchParams(window.location.search);
+    const success = query.get('success');
+    const error = query.get('error');
+
+    if (success && familyMessages[success]) {
+        mostrarMensagem(familyMessages[success], 'success');
+    } else if (error && familyMessages[error]) {
+        mostrarMensagem(familyMessages[error], 'error');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarMensagemDaUrl();
+    document.getElementById('family-search').addEventListener('input', event => {
+        filtrarFamilias(event.target.value);
+    });
+    carregarFamilias();
+});

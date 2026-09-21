@@ -25,13 +25,15 @@
                     <h1>Gerenciar Famílias</h1>
                     <p>Consulte, edite ou remova famílias cadastradas no sistema.</p>
                 </div>
-                <button class="btn btn-save" onclick="showPage('-familias')">Cadastrar nova família</button>
+                <button type="button" class="btn btn-save" onclick="window.location.href='cadastrar-fami.html'">Cadastrar nova família</button>
             </div>
+
+            <div id="family-message" class="page-message" role="alert" aria-live="polite"></div>
 
             <div class="list-toolbar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar família..." oninput="filterTable(this,'table-familias')">
+                    <input type="search" id="family-search" placeholder="Buscar família...">
                 </div>
             </div>
 

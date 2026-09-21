@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,67 +25,78 @@
                     <h1>Cadastrar Família</h1>
                     <p>Preencha os dados da família em situação de vulnerabilidade.</p>
                 </div>
-                <button class="btn btn-save" onclick="showPage('gerenciar-familias')">Gerenciar famílias</button>
+                <button type="button" class="btn btn-save" onclick="window.location.href='gerenciar-fami.html'">Gerenciar famílias</button>
             </div>
-        
-            <div class="form-card">
+
+            <div id="family-message" class="page-message" role="alert" aria-live="polite"></div>
+
+            <form class="form-card" action="familias" method="post">
                 <div class="field">
-                    <label>Nome do titular da família</label>
-                    <input type="text" placeholder="Nome completo do titular">
+                    <label for="nomeResponsavel">Nome do titular da família</label>
+                    <input type="text" id="nomeResponsavel" name="nomeResponsavel"
+                           placeholder="Nome completo do titular" maxlength="100" required>
                 </div>
                 
                 <div class="field-row">
                     <div class="field">
-                        <label>CPF do titular</label>
-                        <input type="text" placeholder="000.000.000-00">
+                        <label for="cpf">CPF do titular</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00"
+                               maxlength="14" inputmode="numeric" required>
                     </div>
                     <div class="field">
-                        <label>Quantidade de membros da família</label>
-                        <input type="number" placeholder="Ex: 4">
+                        <label for="quantidadeMembros">Quantidade de membros da família</label>
+                        <input type="number" id="quantidadeMembros" name="quantidadeMembros"
+                               placeholder="Ex: 4" min="1" max="100" required>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field" style="flex:2;">
-                        <label>Endereço</label>
-                        <input type="text" placeholder="Rua, avenida...">
+                        <label for="logradouro">Endereço</label>
+                        <input type="text" id="logradouro" name="logradouro"
+                               placeholder="Rua, avenida..." maxlength="150" required>
                     </div>
                     <div class="field">
-                        <label>Número</label>
-                        <input type="text" placeholder="Nº">
-                    </div>
-                </div>
-
-                <div class="field-row">
-                    <div class="field">
-                        <label>Bairro</label>
-                        <input type="text" placeholder="Bairro">
-                    </div>
-                    <div class="field">
-                        <label>Cidade</label>
-                        <input type="text" placeholder="Cidade">
+                        <label for="numeroResidencia">Número</label>
+                        <input type="text" id="numeroResidencia" name="numeroResidencia"
+                               placeholder="Nº" maxlength="20">
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
-                        <label>Telefone</label>
-                        <input type="text" placeholder="(00) 00000-0000">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" id="bairro" name="bairro" placeholder="Bairro"
+                               maxlength="100" required>
                     </div>
                     <div class="field">
-                        <label>Data do cadastro</label>
-                        <input type="date" value="2026-09-06">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade" placeholder="Cidade"
+                               maxlength="100" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" name="telefone"
+                               placeholder="(00) 00000-0000" maxlength="20" required>
+                    </div>
+                    <div class="field">
+                        <label for="dataCadastro">Data do cadastro</label>
+                        <input type="text" id="dataCadastro" value="Definida automaticamente" readonly>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button class="btn btn-save" onclick="showToast('Família cadastrada com sucesso.'); showPage('gerenciar-familias');">Confirmar Cadastro</button>
-                    <button class="btn btn-cancel" onclick="showPage('gerenciar-familias')">Cancelar</button>
+                    <button type="submit" class="btn btn-save">Confirmar Cadastro</button>
+                    <button type="button" class="btn btn-cancel" onclick="window.location.href='gerenciar-fami.html'">Cancelar</button>
                 </div>
-            </div>
+            </form>
         </section>
     </div>    
     
     <script src="script/menu.js"></script>
+    <script src="script/familia-form.js"></script>
 </body>
 </html>
