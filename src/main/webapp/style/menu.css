@@ -55,10 +55,6 @@
     color: var(--text);
 }
 
-.side-item.active i {
-    color: var(--text);
-}
-
 .side-item a i {
     display: flex;
     align-items: center;
@@ -66,6 +62,10 @@
     width: 20px;
     height: 20px;
     color: var(--text-sec);
+}
+
+#sidebar .side-item.active i {
+    color: var(--text) !important;
 }
 
 #open-btn {

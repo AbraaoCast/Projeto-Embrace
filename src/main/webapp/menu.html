@@ -10,35 +10,35 @@
 
         <ul id="side-itens">
 
-            <li class="side-item active">
+            <li class="side-item" data-page="dashboard">
                 <a href="dashboard.html" data-title="Dashboard">
                     <i class="fa-solid fa-border-all"></i>
                     <span class="item-description">Dashboard</span>
                 </a>
             </li>
 
-            <li class="side-item" onclick="openPopup('popup-familias')">
+            <li class="side-item" data-page="familias" onclick="openPopup('popup-familias')">
                 <a href="#" data-title="Famílias" onclick="event.preventDefault()">
                     <i class="fa-solid fa-people-group"></i>
                     <span class="item-description">Famílias</span>
                 </a>
             </li>
 
-            <li class="side-item" onclick="openPopup('popup-doacoes')">
+            <li class="side-item" data-page="doacoes" onclick="openPopup('popup-doacoes')">
                 <a href="#" data-title="Doações" onclick="event.preventDefault()">
                     <i class="fa-solid fa-cube"></i>
                     <span class="item-description">Doações</span>
                 </a>
             </li>
 
-            <li class="side-item" onclick="openPopup('popup-entrega')">
+            <li class="side-item" data-page="entrega" onclick="openPopup('popup-entrega')">
                 <a href="#" data-title="Entrega de Doação" onclick="event.preventDefault()">
                     <i class="fa-solid fa-truck"></i>
                     <span class="item-description">Entrega de Doação</span>
                 </a>
             </li>
 
-            <li class="side-item">
+            <li class="side-item" data-page="relatorios">
                 <a href="" data-title="Relatórios">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span class="item-description">Relatórios</span>

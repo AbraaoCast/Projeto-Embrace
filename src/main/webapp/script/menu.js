@@ -15,6 +15,16 @@ fetch('menu.html')
         document.getElementById('sidebar-slot').replaceWith(sidebar);
         document.getElementById('topbar-slot').replaceWith(topbar);
 
+
+        // Deixa a opção do menu sidebar ativa de acordo com a pagina que está sendo acessada
+        const paginaAtual = document.body.dataset.page;
+        document.querySelectorAll('.side-item').forEach(item => {
+            if (item.dataset.page === paginaAtual) {
+        item.classList.add('active');
+            }
+        });
+
+
         // DADOS DO ADMINISTRADOR AUTENTICADO
 
         fetch('api/session')
