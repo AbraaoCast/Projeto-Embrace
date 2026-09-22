@@ -29,50 +29,55 @@
                 <button type="button" class="btn btn-save" onclick="window.location.href='consultar-entregas.html'">Consultar entregas</button>
             </div>
 
-            <div class="form-card">
+            <div id="delivery-message" class="page-message" role="alert" aria-live="polite"></div>
+
+            <form class="form-card" id="delivery-form" action="entregas" method="post">
                 <div class="field-row">
                     <div class="field">
-                        <label>Família</label>
-                        <select>
-                            <option>Selecione a família</option>
+                        <label for="familiaId">Família</label>
+                        <select id="familiaId" name="familiaId" required>
+                            <option value="">Carregando famílias...</option>
                         </select>    
                     </div>
 
                     <div class="field">
-                        <label>Doação</label>
-                        <select>
-                            <option>Selecione a doação</option>
-            
+                        <label for="doacaoId">Doação</label>
+                        <select id="doacaoId" name="doacaoId" required>
+                            <option value="">Carregando doações...</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
-                        <label>Quantidade entregue</label>
-                        <input type="text" placeholder="Ex: 1 cesta, 5 peças...">
+                        <label for="quantidadeEntregue">Quantidade entregue</label>
+                        <input type="number" id="quantidadeEntregue" name="quantidadeEntregue"
+                               placeholder="Ex: 5" min="1" max="1000000" required>
                     </div>
 
                     <div class="field">
-                        <label>Data da entrega</label>
-                        <input type="date" value="2026-09-06">
+                        <label for="dataEntrega">Data da entrega</label>
+                        <input type="date" id="dataEntrega" name="dataEntrega" required>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label>Observação</label>
-                    <textarea rows="3" placeholder="Informações adicionais (opcional)"></textarea>
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" name="observacao" rows="3"
+                              placeholder="Informações adicionais (opcional)" maxlength="1000"></textarea>
                 </div>
 
                 <div class="form-actions">
-                    <button class="btn btn-save" onclick="showToast('Entrega registrada com sucesso.'); showPage('consultar-entregas');">Registrar Entrega</button>
-                    <button class="btn btn-cancel" onclick="showPage('consultar-entregas')">Cancelar</button>
+                    <button type="submit" id="submit-delivery" class="btn btn-save">Registrar Entrega</button>
+                    <button type="button" class="btn btn-cancel"
+                            onclick="window.location.href='consultar-entregas.html'">Cancelar</button>
                 </div>
-            </div>
+            </form>
             
         </section>
     </div>        
     
     <script src="script/menu.js"></script>
+    <script src="script/entrega-form.js"></script>
 </body>
 </html>

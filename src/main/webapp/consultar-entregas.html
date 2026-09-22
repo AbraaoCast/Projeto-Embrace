@@ -31,30 +31,32 @@
                 <button class="btn btn-save" onclick="window.location.href='registrar-entrega.html'">Registrar nova entrega</button>
             </div>
 
+            <div id="delivery-message" class="page-message" role="alert" aria-live="polite"></div>
+
             <div class="list-toolbar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar entrega..." oninput="filterTable(this,'table-entregas')">
+                    <input type="search" id="delivery-search" placeholder="Buscar entrega...">
                 </div>
             </div>
 
             <div class="filters-row">
                 <div class="field">
-                    <label>Filtrar por família</label>
-                    <select>
-                        <option>Todas as famílias</option>
+                    <label for="filter-family">Filtrar por família</label>
+                    <select id="filter-family">
+                        <option value="">Todas as famílias</option>
                     </select>
                 </div>
 
                 <div class="field">
-                    <label>Filtrar por data</label>
-                    <input type="date">
+                    <label for="filter-date">Filtrar por data</label>
+                    <input type="date" id="filter-date">
                 </div>
 
                 <div class="field">
-                    <label>Filtrar por tipo de doação</label>
-                    <select>
-                        <option>Todos os tipos</option>
+                    <label for="filter-type">Filtrar por tipo de doação</label>
+                    <select id="filter-type">
+                        <option value="">Todos os tipos</option>
                     </select>
                 </div>        
             </div>

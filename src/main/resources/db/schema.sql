@@ -46,3 +46,4 @@ CREATE TABLE IF NOT EXISTS entrega (
 
 CREATE INDEX IF NOT EXISTS idx_entrega_familia ON entrega (id_familia);
 CREATE INDEX IF NOT EXISTS idx_entrega_doacao ON entrega (id_doacao);
+CREATE INDEX IF NOT EXISTS idx_entrega_data ON entrega (data_entrega DESC, id_entrega DESC);
