@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Doação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/menu.css">
+    <link rel="stylesheet" href="style/popups.css">
+    <link rel="stylesheet" href="style/cadastrar.css">
+</head>
+<body>
+    <div id="sidebar-slot"></div>
+    <div id="popup-slot"></div>
+
+    <div class="main-content">
+        <div id="topbar-slot"></div>
+
+        <section class="conteiner" id="page-editar-doacao">
+            <div class="page-header">
+                <div>
+                    <h1>Editar Doação</h1>
+                    <p>Atualize os dados da doação selecionada.</p>
+                </div>
+                <button type="button" class="btn btn-cancel"
+                        onclick="window.location.href='gerenciar-doacoes.html'">Voltar</button>
+            </div>
+
+            <div id="donation-message" class="page-message" role="alert" aria-live="polite"></div>
+
+            <form class="form-card" id="edit-donation-form" action="doacoes/update" method="post">
+                <input type="hidden" id="id" name="id">
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="tipo">Tipo da doação</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Roupas">Roupas</option>
+                            <option value="Produtos de higiene">Produtos de higiene</option>
+                            <option value="Material escolar">Material escolar</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="quantidade">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade"
+                               min="1" max="1000000" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="dataDoacao">Data da doação</label>
+                        <input type="date" id="dataDoacao" name="dataDoacao" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" maxlength="200" required>
+                </div>
+
+                <div class="field">
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" name="observacao" rows="3" maxlength="1000"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Salvar alterações</button>
+                    <button type="button" class="btn btn-cancel"
+                            onclick="window.location.href='gerenciar-doacoes.html'">Cancelar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="script/menu.js"></script>
+    <script src="script/doacao-form.js"></script>
+</body>
+</html>

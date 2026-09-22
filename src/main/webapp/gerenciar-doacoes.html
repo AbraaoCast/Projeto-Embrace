@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,10 +30,12 @@
                 <button class="btn btn-save" onclick="window.location.href='cadastrar-doacao.html'">Cadastrar nova doação</button>
             </div>
 
+            <div id="donation-message" class="page-message" role="alert" aria-live="polite"></div>
+
             <div class="list-toolbar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar doação..." oninput="filterTable(this,'table-doacoes')">
+                    <input type="search" id="donation-search" placeholder="Buscar doação...">
                 </div>
             </div>
 

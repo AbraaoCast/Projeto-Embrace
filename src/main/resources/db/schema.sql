@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS familia (
 CREATE TABLE IF NOT EXISTS doacao (
     id_doacao INTEGER PRIMARY KEY AUTOINCREMENT,
     tipo TEXT NOT NULL CHECK (length(trim(tipo)) > 0),
+    descricao TEXT NOT NULL DEFAULT '',
     quantidade INTEGER NOT NULL CHECK (quantidade > 0),
     data_doacao TEXT NOT NULL,
     observacao TEXT

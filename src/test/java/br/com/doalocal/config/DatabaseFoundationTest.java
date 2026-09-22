@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -69,6 +71,40 @@ class DatabaseFoundationTest {
         }
     }
 
+    @Test
+    void migratesLegacyDonationTableAddingDescription() throws SQLException {
+        try (Connection connection = ConnectionFactory.openConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate("""
+                    CREATE TABLE doacao (
+                        id_doacao INTEGER PRIMARY KEY AUTOINCREMENT,
+                        tipo TEXT NOT NULL,
+                        quantidade INTEGER NOT NULL,
+                        data_doacao TEXT NOT NULL,
+                        observacao TEXT
+                    )
+                    """);
+            statement.executeUpdate("""
+                    INSERT INTO doacao (tipo, quantidade, data_doacao)
+                    VALUES ('Alimentos', 10, '2026-09-21')
+                    """);
+        }
+
+        DatabaseInitializer.initialize();
+
+        try (Connection connection = ConnectionFactory.openConnection();
+             Statement statement = connection.createStatement()) {
+            assertEquals(
+                    List.of("id_doacao", "tipo", "quantidade", "data_doacao", "observacao", "descricao"),
+                    tableColumns(statement, "doacao")
+            );
+            try (ResultSet result = statement.executeQuery("SELECT descricao FROM doacao")) {
+                result.next();
+                assertEquals("", result.getString("descricao"));
+            }
+        }
+    }
+
     private static int pragmaForeignKeys(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery("PRAGMA foreign_keys")) {
@@ -92,5 +128,15 @@ class DatabaseFoundationTest {
             }
         }
         return tables;
+    }
+
+    private static List<String> tableColumns(Statement statement, String table) throws SQLException {
+        List<String> columns = new ArrayList<>();
+        try (ResultSet result = statement.executeQuery("PRAGMA table_info(" + table + ")")) {
+            while (result.next()) {
+                columns.add(result.getString("name"));
+            }
+        }
+        return columns;
     }
 }

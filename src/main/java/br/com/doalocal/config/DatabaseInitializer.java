@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ public final class DatabaseInitializer {
             connection.setAutoCommit(false);
             try {
                 executeStatements(connection, schema);
+                migrateDonationDescription(connection);
                 connection.commit();
             } catch (SQLException exception) {
                 connection.rollback();
@@ -56,6 +58,28 @@ public final class DatabaseInitializer {
                 try (Statement statement = connection.createStatement()) {
                     statement.execute(sql);
                 }
+            }
+        }
+    }
+
+    /** Compatibilidade com bancos criados antes da inclusão da descrição da doação. */
+    private static void migrateDonationDescription(Connection connection) throws SQLException {
+        boolean descriptionExists = false;
+        try (Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery("PRAGMA table_info(doacao)")) {
+            while (result.next()) {
+                if ("descricao".equalsIgnoreCase(result.getString("name"))) {
+                    descriptionExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!descriptionExists) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(
+                        "ALTER TABLE doacao ADD COLUMN descricao TEXT NOT NULL DEFAULT ''"
+                );
             }
         }
     }

@@ -30,48 +30,56 @@
                 <button class="btn btn-save" onclick="window.location.href='gerenciar-doacoes.html'">Gerenciar Doações</button>    
             </div>
 
-            <div class="form-card">
+            <div id="donation-message" class="page-message" role="alert" aria-live="polite"></div>
+
+            <form class="form-card" action="doacoes" method="post">
                 <div class="field-row">
                     <div class="field">
-                        <label>Tipo da doação</label>
-                        <select>
-                            <option>Alimentos</option>
-                            <option>Roupas</option>
-                            <option>Produtos de higiene</option>
-                            <option>Material escolar</option>
-                            <option>Outros</option>
+                        <label for="tipo">Tipo da doação</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Roupas">Roupas</option>
+                            <option value="Produtos de higiene">Produtos de higiene</option>
+                            <option value="Material escolar">Material escolar</option>
+                            <option value="Outros">Outros</option>
                         </select>
                     </div>
                     <div class="field">
-                        <label>Quantidade</label>
-                        <input type="text" placeholder="Ex: 50 unidades">
+                        <label for="quantidade">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade"
+                               placeholder="Ex: 50" min="1" max="1000000" required>
                     </div>
 
                     <div class="field">
-                        <label>Data da doação</label>
-                        <input type="date" value="2026-09-06">
+                        <label for="dataDoacao">Data da doação</label>
+                        <input type="date" id="dataDoacao" name="dataDoacao" required>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label>Descrição</label>
-                    <input type="text" placeholder="Descreva os itens doados">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao"
+                           placeholder="Descreva os itens doados" maxlength="200" required>
                 </div>
 
                 <div class="field">
-                    <label>Observação</label>
-                    <textarea rows="3" placeholder="Informações adicionais (opcional)"></textarea>
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" name="observacao" rows="3"
+                              placeholder="Informações adicionais (opcional)" maxlength="1000"></textarea>
                 </div>
 
                 <div class="form-actions">
-                    <button class="btn btn-save" onclick="showToast('Doação cadastrada com sucesso.'); showPage('gerenciar-doacoes');">Confirmar Cadastro</button>
-                    <button class="btn btn-cancel" onclick="showPage('gerenciar-doacoes')">Cancelar</button>
+                    <button type="submit" class="btn btn-save">Confirmar Cadastro</button>
+                    <button type="button" class="btn btn-cancel"
+                            onclick="window.location.href='gerenciar-doacoes.html'">Cancelar</button>
                 </div>
-            </div>
+            </form>
         </section>
 
     </div>    
     
     <script src="script/menu.js"></script>
+    <script src="script/doacao-form.js"></script>
 </body>
 </html>
