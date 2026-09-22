@@ -58,6 +58,7 @@ class FamiliaServiceTest {
         assertTrue(family.getId() > 0);
         assertEquals("Maria Silva", family.getNomeResponsavel());
         assertEquals("52998224725", family.getCpfResponsavel());
+        assertEquals("11999990000", family.getTelefone());
         assertEquals(4, family.getQuantidadeMembros());
         assertTrue(family.getDataCadastro() != null);
     }
@@ -121,6 +122,7 @@ class FamiliaServiceTest {
 
         assertEquals("Maria Souza", updated.getNomeResponsavel());
         assertEquals("52998224725", updated.getCpfResponsavel());
+        assertEquals("11988887777", updated.getTelefone());
         assertEquals(created.getDataCadastro(), updated.getDataCadastro());
     }
 
@@ -189,6 +191,10 @@ class FamiliaServiceTest {
                 Arguments.of("Maria", "52998224725", "-2", "11999990000", "Rua", "Centro", "São Paulo", "members_must_be_positive"),
                 Arguments.of("Maria", "52998224725", "101", "11999990000", "Rua", "Centro", "São Paulo", "members_too_large"),
                 Arguments.of("Maria", "52998224725", "4", " ", "Rua", "Centro", "São Paulo", "phone_required"),
+                Arguments.of("Maria", "52998224725", "4", "abc", "Rua", "Centro", "São Paulo", "invalid_phone"),
+                Arguments.of("Maria", "52998224725", "4", "123", "Rua", "Centro", "São Paulo", "invalid_phone"),
+                Arguments.of("Maria", "52998224725", "4", "(98) 999", "Rua", "Centro", "São Paulo", "invalid_phone"),
+                Arguments.of("Maria", "52998224725", "4", "(98) abcde-9999", "Rua", "Centro", "São Paulo", "invalid_phone"),
                 Arguments.of("Maria", "52998224725", "4", "11999990000", " ", "Centro", "São Paulo", "address_required"),
                 Arguments.of("Maria", "52998224725", "4", "11999990000", "Rua", " ", "São Paulo", "district_required"),
                 Arguments.of("Maria", "52998224725", "4", "11999990000", "Rua", "Centro", " ", "city_required")

@@ -10,7 +10,7 @@ const deliveryFormMessages = {
     quantity_too_large: 'A quantidade informada é muito grande.',
     insufficient_quantity: 'A quantidade informada é maior que a quantidade disponível para esta doação.',
     date_required: 'Informe a data da entrega.',
-    invalid_date: 'Informe uma data válida.',
+    invalid_date: 'Informe uma data válida no formato DD/MM/AAAA.',
     observation_too_long: 'A observação deve possuir no máximo 1.000 caracteres.',
     internal: 'Não foi possível registrar a entrega. Tente novamente.'
 };

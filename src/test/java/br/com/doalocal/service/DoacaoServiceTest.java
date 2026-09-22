@@ -55,7 +55,7 @@ class DoacaoServiceTest {
     @Test
     void createsValidDonationWithNormalizedFields() {
         Doacao donation = doacaoService.create(
-                "  Alimentos  ", "  Cestas básicas  ", "10", "2026-09-21", "  Sem glúten  "
+                "  Alimentos  ", "  Cestas básicas  ", "10", "21/09/2026", "  Sem glúten  "
         );
 
         assertTrue(donation.getId() > 0);
@@ -90,9 +90,9 @@ class DoacaoServiceTest {
     @Test
     void listsAndFindsDonations() {
         Doacao first = doacaoService.create(
-                "Roupas", "Camisetas", "20", "2026-09-20", null
+                "Roupas", "Camisetas", "20", "20/09/2026", null
         );
-        doacaoService.create("Alimentos", "Arroz", "30", "2026-09-21", null);
+        doacaoService.create("Alimentos", "Arroz", "30", "21/09/2026", null);
 
         List<Doacao> doacoes = doacaoService.listAll();
         assertEquals(2, doacoes.size());
@@ -114,12 +114,12 @@ class DoacaoServiceTest {
     @Test
     void updatesDonationAfterValidatingAllFields() {
         Doacao created = doacaoService.create(
-                "Outros", "Cobertor", "5", "2026-09-20", null
+                "Outros", "Cobertor", "5", "20/09/2026", null
         );
 
         Doacao updated = doacaoService.update(
                 String.valueOf(created.getId()), "Roupas", "Cobertores", "8",
-                "2026-09-21", "Tamanho casal"
+                "21/09/2026", "Tamanho casal"
         );
 
         assertEquals("Roupas", updated.getTipo());
@@ -132,26 +132,26 @@ class DoacaoServiceTest {
     @Test
     void rejectsInvalidUpdateAndMissingDonation() {
         Doacao created = doacaoService.create(
-                "Alimentos", "Arroz", "10", "2026-09-21", null
+                "Alimentos", "Arroz", "10", "21/09/2026", null
         );
 
         ValidationException invalid = assertThrows(ValidationException.class, () ->
                 doacaoService.update(
                         String.valueOf(created.getId()), "Alimentos", "Arroz", "0",
-                        "2026-09-21", null
+                        "21/09/2026", null
                 ));
         assertEquals("quantity_must_be_positive", invalid.getErrorCode());
 
         assertThrows(DoacaoNotFoundException.class, () ->
                 doacaoService.update(
-                        "999", "Alimentos", "Arroz", "10", "2026-09-21", null
+                        "999", "Alimentos", "Arroz", "10", "21/09/2026", null
                 ));
     }
 
     @Test
     void deletesExistingDonationAndRejectsMissingOrInvalidId() {
         Doacao created = doacaoService.create(
-                "Alimentos", "Feijão", "10", "2026-09-21", null
+                "Alimentos", "Feijão", "10", "21/09/2026", null
         );
         doacaoService.delete(String.valueOf(created.getId()));
 
@@ -163,26 +163,32 @@ class DoacaoServiceTest {
 
     private Doacao createWithObservation(String observation) {
         return doacaoService.create(
-                "Alimentos", "Cesta básica", "10", "2026-09-21", observation
+                "Alimentos", "Cesta básica", "10", "21/09/2026", observation
         );
     }
 
     private static Stream<Arguments> invalidDonationData() {
         return Stream.of(
-                Arguments.of(null, "Arroz", "10", "2026-09-21", null, "type_required"),
-                Arguments.of("   ", "Arroz", "10", "2026-09-21", null, "type_required"),
-                Arguments.of("T".repeat(51), "Arroz", "10", "2026-09-21", null, "type_too_long"),
-                Arguments.of("Alimentos", " ", "10", "2026-09-21", null, "description_required"),
-                Arguments.of("Alimentos", "D".repeat(201), "10", "2026-09-21", null, "description_too_long"),
-                Arguments.of("Alimentos", "Arroz", null, "2026-09-21", null, "quantity_required"),
-                Arguments.of("Alimentos", "Arroz", "abc", "2026-09-21", null, "invalid_quantity"),
-                Arguments.of("Alimentos", "Arroz", "0", "2026-09-21", null, "quantity_must_be_positive"),
-                Arguments.of("Alimentos", "Arroz", "-5", "2026-09-21", null, "quantity_must_be_positive"),
-                Arguments.of("Alimentos", "Arroz", "1000001", "2026-09-21", null, "quantity_too_large"),
+                Arguments.of(null, "Arroz", "10", "21/09/2026", null, "type_required"),
+                Arguments.of("   ", "Arroz", "10", "21/09/2026", null, "type_required"),
+                Arguments.of("T".repeat(51), "Arroz", "10", "21/09/2026", null, "type_too_long"),
+                Arguments.of("Alimentos", " ", "10", "21/09/2026", null, "description_required"),
+                Arguments.of("Alimentos", "D".repeat(201), "10", "21/09/2026", null, "description_too_long"),
+                Arguments.of("Alimentos", "Arroz", null, "21/09/2026", null, "quantity_required"),
+                Arguments.of("Alimentos", "Arroz", "abc", "21/09/2026", null, "invalid_quantity"),
+                Arguments.of("Alimentos", "Arroz", "0", "21/09/2026", null, "quantity_must_be_positive"),
+                Arguments.of("Alimentos", "Arroz", "-5", "21/09/2026", null, "quantity_must_be_positive"),
+                Arguments.of("Alimentos", "Arroz", "1000001", "21/09/2026", null, "quantity_too_large"),
                 Arguments.of("Alimentos", "Arroz", "10", "", null, "date_required"),
-                Arguments.of("Alimentos", "Arroz", "10", "21/09/2026", null, "invalid_date"),
-                Arguments.of("Alimentos", "Arroz", "10", "2026-02-30", null, "invalid_date"),
-                Arguments.of("Alimentos", "Arroz", "10", "2026-09-21", "O".repeat(1001), "observation_too_long")
+                Arguments.of("Alimentos", "Arroz", "10", "2026-09-21", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "29/02/2025", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "31/02/2026", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "32/01/2026", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "00/01/2026", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "01/13/2026", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "99/99/9999", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "texto", null, "invalid_date"),
+                Arguments.of("Alimentos", "Arroz", "10", "21/09/2026", "O".repeat(1001), "observation_too_long")
         );
     }
 }

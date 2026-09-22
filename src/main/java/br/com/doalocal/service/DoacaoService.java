@@ -4,6 +4,7 @@ import br.com.doalocal.dao.DoacaoDao;
 import br.com.doalocal.exception.DoacaoNotFoundException;
 import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Doacao;
+import br.com.doalocal.util.DateFormats;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -125,9 +126,11 @@ public final class DoacaoService {
 
         LocalDate parsedDate;
         try {
-            parsedDate = LocalDate.parse(normalizedDate);
+            parsedDate = DateFormats.parseUserDate(normalizedDate);
         } catch (DateTimeParseException exception) {
-            throw new ValidationException("invalid_date", "Informe uma data válida.");
+            throw new ValidationException(
+                    "invalid_date", "Informe uma data válida no formato DD/MM/AAAA."
+            );
         }
 
         return new DonationData(

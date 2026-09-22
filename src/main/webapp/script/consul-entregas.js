@@ -57,7 +57,7 @@ function createDeliveryRow(delivery) {
     addDeliveryCell(row, delivery.nomeResponsavel);
     addDeliveryCell(row, `${delivery.tipoDoacao} — ${delivery.descricaoDoacao}`);
     addDeliveryCell(row, String(delivery.quantidadeEntregue));
-    addDeliveryCell(row, formatDeliveryDate(delivery.dataEntrega));
+    addDeliveryCell(row, DoaLocalFormats.formatDate(delivery.dataEntrega));
     addDeliveryCell(row, delivery.observacao || '—');
     addDeliveryCell(row, '—');
     return row;
@@ -102,11 +102,6 @@ function createDeliveryOption(value, label) {
     option.value = value;
     option.textContent = label;
     return option;
-}
-
-function formatDeliveryDate(value) {
-    const [year, month, day] = value.split('-');
-    return year && month && day ? `${day}/${month}/${year}` : value;
 }
 
 function showDeliverySuccessMessage() {

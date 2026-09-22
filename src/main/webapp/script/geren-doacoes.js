@@ -43,7 +43,7 @@ function criarLinhaDoacao(doacao) {
     adicionarCelulaDoacao(row, doacao.tipo);
     adicionarCelulaDoacao(row, doacao.descricao);
     adicionarCelulaDoacao(row, String(doacao.quantidade));
-    adicionarCelulaDoacao(row, formatarDataDoacao(doacao.dataDoacao));
+    adicionarCelulaDoacao(row, DoaLocalFormats.formatDate(doacao.dataDoacao));
     adicionarCelulaDoacao(row, doacao.observacao || '—');
 
     const actionCell = row.insertCell();
@@ -70,11 +70,6 @@ function criarLinhaDoacao(doacao) {
 function adicionarCelulaDoacao(row, value) {
     const cell = row.insertCell();
     cell.textContent = value;
-}
-
-function formatarDataDoacao(value) {
-    const [year, month, day] = value.split('-');
-    return year && month && day ? `${day}/${month}/${year}` : value;
 }
 
 function editarDoacao(id) {

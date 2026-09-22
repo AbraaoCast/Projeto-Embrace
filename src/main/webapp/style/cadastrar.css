@@ -62,11 +62,6 @@ p {
     flex:1;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(45%) sepia(8%) saturate(500%) hue-rotate(180deg) brightness(90%);
-    cursor: pointer;
-}
-
 .page-message {
     display:none; max-width:760px; box-sizing:border-box; margin-bottom:16px;
     padding:11px 14px; border-radius:8px; font-size:13px;

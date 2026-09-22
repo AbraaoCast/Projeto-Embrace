@@ -71,7 +71,7 @@ class EntregaServiceTest {
 
         Entrega delivery = entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "20", "2026-09-22", "  Entregue pela manhã  "
+                "20", "22/09/2026", "  Entregue pela manhã  "
         );
 
         assertTrue(delivery.getId() > 0);
@@ -89,7 +89,7 @@ class EntregaServiceTest {
 
         Entrega delivery = entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "20", "2026-09-22", "   "
+                "20", "22/09/2026", "   "
         );
         assertNull(delivery.getObservacao());
     }
@@ -115,10 +115,10 @@ class EntregaServiceTest {
         Doacao donation = insertDonation(100);
 
         assertThrows(FamiliaNotFoundException.class, () -> entregaService.register(
-                "999", String.valueOf(donation.getId()), "1", "2026-09-22", null
+                "999", String.valueOf(donation.getId()), "1", "22/09/2026", null
         ));
         assertThrows(DoacaoNotFoundException.class, () -> entregaService.register(
-                String.valueOf(family.getId()), "999", "1", "2026-09-22", null
+                String.valueOf(family.getId()), "999", "1", "22/09/2026", null
         ));
     }
 
@@ -129,25 +129,25 @@ class EntregaServiceTest {
 
         entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "20", "2026-09-20", null
+                "20", "20/09/2026", null
         );
         assertEquals(80, available(donation.getId()));
 
         entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "30", "2026-09-21", null
+                "30", "21/09/2026", null
         );
         assertEquals(50, available(donation.getId()));
 
         assertThrows(InsufficientDonationQuantityException.class, () -> entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "51", "2026-09-22", null
+                "51", "22/09/2026", null
         ));
         assertEquals(50, available(donation.getId()));
 
         entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "50", "2026-09-22", null
+                "50", "22/09/2026", null
         );
         assertEquals(0, available(donation.getId()));
         assertEquals(100, doacaoDao.findById(donation.getId()).orElseThrow().getQuantidade());
@@ -161,7 +161,7 @@ class EntregaServiceTest {
 
         entregaService.register(
                 String.valueOf(family.getId()), String.valueOf(donation.getId()),
-                "10", "2026-09-22", "Teste"
+                "10", "22/09/2026", "Teste"
         );
 
         List<EntregaResumo> history = entregaService.listHistory();
@@ -194,21 +194,22 @@ class EntregaServiceTest {
 
     private static Stream<Arguments> invalidDeliveryData() {
         return Stream.of(
-                Arguments.of(null, "1", "1", "2026-09-22", null, "family_required"),
-                Arguments.of(" ", "1", "1", "2026-09-22", null, "family_required"),
-                Arguments.of("1", null, "1", "2026-09-22", null, "donation_required"),
-                Arguments.of("abc", "1", "1", "2026-09-22", null, "invalid_id"),
-                Arguments.of("0", "1", "1", "2026-09-22", null, "invalid_id"),
-                Arguments.of("1", "-1", "1", "2026-09-22", null, "invalid_id"),
-                Arguments.of("1", "1", null, "2026-09-22", null, "quantity_required"),
-                Arguments.of("1", "1", "abc", "2026-09-22", null, "invalid_quantity"),
-                Arguments.of("1", "1", "0", "2026-09-22", null, "quantity_must_be_positive"),
-                Arguments.of("1", "1", "-1", "2026-09-22", null, "quantity_must_be_positive"),
-                Arguments.of("1", "1", "1000001", "2026-09-22", null, "quantity_too_large"),
+                Arguments.of(null, "1", "1", "22/09/2026", null, "family_required"),
+                Arguments.of(" ", "1", "1", "22/09/2026", null, "family_required"),
+                Arguments.of("1", null, "1", "22/09/2026", null, "donation_required"),
+                Arguments.of("abc", "1", "1", "22/09/2026", null, "invalid_id"),
+                Arguments.of("0", "1", "1", "22/09/2026", null, "invalid_id"),
+                Arguments.of("1", "-1", "1", "22/09/2026", null, "invalid_id"),
+                Arguments.of("1", "1", null, "22/09/2026", null, "quantity_required"),
+                Arguments.of("1", "1", "abc", "22/09/2026", null, "invalid_quantity"),
+                Arguments.of("1", "1", "0", "22/09/2026", null, "quantity_must_be_positive"),
+                Arguments.of("1", "1", "-1", "22/09/2026", null, "quantity_must_be_positive"),
+                Arguments.of("1", "1", "1000001", "22/09/2026", null, "quantity_too_large"),
                 Arguments.of("1", "1", "1", null, null, "date_required"),
-                Arguments.of("1", "1", "1", "22/09/2026", null, "invalid_date"),
-                Arguments.of("1", "1", "1", "2026-02-30", null, "invalid_date"),
-                Arguments.of("1", "1", "1", "2026-09-22", "O".repeat(1001), "observation_too_long")
+                Arguments.of("1", "1", "1", "2026-09-22", null, "invalid_date"),
+                Arguments.of("1", "1", "1", "31/02/2026", null, "invalid_date"),
+                Arguments.of("1", "1", "1", "99/99/9999", null, "invalid_date"),
+                Arguments.of("1", "1", "1", "22/09/2026", "O".repeat(1001), "observation_too_long")
         );
     }
 }

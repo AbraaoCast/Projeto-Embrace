@@ -43,9 +43,9 @@ function criarLinhaFamilia(familia) {
     adicionarCelula(row, familia.nomeResponsavel);
     adicionarCelula(row, formatarCpf(familia.cpf));
     adicionarCelula(row, String(familia.quantidadeMembros));
-    adicionarCelula(row, familia.telefone);
+    adicionarCelula(row, DoaLocalFormats.formatPhone(familia.telefone));
     adicionarCelula(row, formatarEndereco(familia));
-    adicionarCelula(row, formatarData(familia.dataCadastro));
+    adicionarCelula(row, DoaLocalFormats.formatDate(familia.dataCadastro));
 
     const actionCell = row.insertCell();
     const actions = document.createElement('div');
@@ -80,11 +80,6 @@ function formatarEndereco(familia) {
 
 function formatarCpf(cpf) {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-}
-
-function formatarData(value) {
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString('pt-BR');
 }
 
 function editarFamilia(id) {

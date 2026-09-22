@@ -8,7 +8,7 @@ const donationFormMessages = {
     quantity_must_be_positive: 'A quantidade deve ser maior que zero.',
     quantity_too_large: 'A quantidade deve ser no máximo 1.000.000.',
     date_required: 'Informe a data da doação.',
-    invalid_date: 'Informe uma data válida.',
+    invalid_date: 'Informe uma data válida no formato DD/MM/AAAA.',
     observation_too_long: 'A observação deve possuir no máximo 1.000 caracteres.',
     invalid_id: 'A doação informada é inválida.',
     donation_not_found: 'Doação não encontrada.',
@@ -54,7 +54,7 @@ async function loadDonationForEditing() {
         document.getElementById('tipo').value = doacao.tipo;
         document.getElementById('descricao').value = doacao.descricao;
         document.getElementById('quantidade').value = doacao.quantidade;
-        document.getElementById('dataDoacao').value = doacao.dataDoacao;
+        document.getElementById('dataDoacao').value = DoaLocalFormats.formatDate(doacao.dataDoacao);
         document.getElementById('observacao').value = doacao.observacao || '';
     } catch (error) {
         showDonationFormMessage(error.message || donationFormMessages.internal);

@@ -9,6 +9,7 @@ import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.DoacaoDisponivel;
 import br.com.doalocal.model.Entrega;
 import br.com.doalocal.model.EntregaResumo;
+import br.com.doalocal.util.DateFormats;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -122,9 +123,11 @@ public final class EntregaService {
             throw new ValidationException("date_required", "Informe a data da entrega.");
         }
         try {
-            return LocalDate.parse(value.trim());
+            return DateFormats.parseUserDate(value.trim());
         } catch (DateTimeParseException exception) {
-            throw new ValidationException("invalid_date", "Informe uma data válida.");
+            throw new ValidationException(
+                    "invalid_date", "Informe uma data válida no formato DD/MM/AAAA."
+            );
         }
     }
 

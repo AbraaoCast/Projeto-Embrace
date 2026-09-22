@@ -42,7 +42,7 @@ public final class EntregaJson {
                 "\"tipoDoacao\":\"" + escape(entrega.tipoDoacao()) + "\"," +
                 "\"descricaoDoacao\":\"" + escape(entrega.descricaoDoacao()) + "\"," +
                 "\"quantidadeEntregue\":" + entrega.quantidadeEntregue() + "," +
-                "\"dataEntrega\":\"" + entrega.dataEntrega() + "\"," +
+                "\"dataEntrega\":\"" + DateFormats.formatUserDate(entrega.dataEntrega()) + "\"," +
                 "\"observacao\":" + nullable(entrega.observacao()) +
                 "}";
     }

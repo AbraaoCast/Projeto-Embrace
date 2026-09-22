@@ -76,7 +76,9 @@
                 <div class="field-row">
                     <div class="field">
                         <label for="telefone">Telefone</label>
-                        <input type="text" id="telefone" name="telefone" maxlength="20" required>
+                        <input type="text" id="telefone" name="telefone" maxlength="15"
+                               placeholder="(98) 99999-9999" inputmode="numeric" data-mask="phone"
+                               pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" required>
                     </div>
                     <div class="field">
                         <label for="dataCadastro">Data do cadastro</label>
@@ -94,6 +96,7 @@
     </div>
     
     <script src="script/menu.js"></script>
+    <script src="script/field-formats.js"></script>
     <script src="script/familia-form.js"></script>
 </body>
 </html>

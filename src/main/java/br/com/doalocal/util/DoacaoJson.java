@@ -21,7 +21,7 @@ public final class DoacaoJson {
                 "\"tipo\":\"" + escape(doacao.getTipo()) + "\"," +
                 "\"descricao\":\"" + escape(doacao.getDescricao()) + "\"," +
                 "\"quantidade\":" + doacao.getQuantidade() + "," +
-                "\"dataDoacao\":\"" + doacao.getDataDoacao() + "\"," +
+                "\"dataDoacao\":\"" + DateFormats.formatUserDate(doacao.getDataDoacao()) + "\"," +
                 "\"observacao\":" + nullable(doacao.getObservacao()) +
                 "}";
     }

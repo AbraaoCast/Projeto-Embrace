@@ -57,7 +57,9 @@
 
                     <div class="field">
                         <label for="dataEntrega">Data da entrega</label>
-                        <input type="date" id="dataEntrega" name="dataEntrega" required>
+                        <input type="text" id="dataEntrega" name="dataEntrega"
+                               placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric"
+                               data-mask="date" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required>
                     </div>
                 </div>
 
@@ -78,6 +80,7 @@
     </div>        
     
     <script src="script/menu.js"></script>
+    <script src="script/field-formats.js"></script>
     <script src="script/entrega-form.js"></script>
 </body>
 </html>

@@ -8,11 +8,11 @@ const familyFormMessages = {
     members_must_be_positive: 'A quantidade de membros deve ser maior que zero.',
     members_too_large: 'A quantidade de membros deve ser no máximo 100.',
     phone_required: 'Informe o telefone.',
+    invalid_phone: 'Informe um telefone válido no formato (98) 99999-9999.',
     address_required: 'Informe o endereço.',
     district_required: 'Informe o bairro.',
     city_required: 'Informe a cidade.',
     name_too_long: 'O nome do responsável é muito longo.',
-    phone_too_long: 'O telefone é muito longo.',
     address_too_long: 'O endereço é muito longo.',
     number_too_long: 'O número da residência é muito longo.',
     district_too_long: 'O bairro é muito longo.',
@@ -31,11 +31,6 @@ function showFamilyFormMessage(message, type = 'error') {
 
 function formatFamilyCpf(cpf) {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-}
-
-function formatFamilyDate(value) {
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : date.toLocaleString('pt-BR');
 }
 
 async function loadFamilyForEditing() {
@@ -63,12 +58,12 @@ async function loadFamilyForEditing() {
         document.getElementById('nomeResponsavel').value = familia.nomeResponsavel;
         document.getElementById('cpf').value = formatFamilyCpf(familia.cpf);
         document.getElementById('quantidadeMembros').value = familia.quantidadeMembros;
-        document.getElementById('telefone').value = familia.telefone;
+        document.getElementById('telefone').value = DoaLocalFormats.formatPhone(familia.telefone);
         document.getElementById('logradouro').value = familia.logradouro;
         document.getElementById('numeroResidencia').value = familia.numeroResidencia || '';
         document.getElementById('bairro').value = familia.bairro;
         document.getElementById('cidade').value = familia.cidade;
-        document.getElementById('dataCadastro').value = formatFamilyDate(familia.dataCadastro);
+        document.getElementById('dataCadastro').value = DoaLocalFormats.formatDate(familia.dataCadastro);
     } catch (error) {
         showFamilyFormMessage(error.message || familyFormMessages.internal);
         form.querySelectorAll('input, button').forEach(element => element.disabled = true);

@@ -2,13 +2,10 @@ package br.com.doalocal.util;
 
 import br.com.doalocal.model.Familia;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /** Serialização JSON mínima e segura para a API de famílias. */
 public final class FamiliaJson {
-
-    private static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     private FamiliaJson() {
     }
@@ -24,12 +21,12 @@ public final class FamiliaJson {
                 "\"cpf\":\"" + escape(familia.getCpfResponsavel()) + "\"," +
                 "\"nomeResponsavel\":\"" + escape(familia.getNomeResponsavel()) + "\"," +
                 "\"quantidadeMembros\":" + familia.getQuantidadeMembros() + "," +
-                "\"telefone\":\"" + escape(familia.getTelefone()) + "\"," +
+                "\"telefone\":\"" + escape(PhoneFormats.formatForDisplay(familia.getTelefone())) + "\"," +
                 "\"logradouro\":\"" + escape(familia.getLogradouro()) + "\"," +
                 "\"numeroResidencia\":" + nullable(familia.getNumeroResidencia()) + "," +
                 "\"bairro\":\"" + escape(familia.getBairro()) + "\"," +
                 "\"cidade\":\"" + escape(familia.getCidade()) + "\"," +
-                "\"dataCadastro\":\"" + DATE_TIME.format(familia.getDataCadastro()) + "\"" +
+                "\"dataCadastro\":\"" + DateFormats.formatUserDate(familia.getDataCadastro().toLocalDate()) + "\"" +
                 "}";
     }
 

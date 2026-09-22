@@ -5,6 +5,7 @@ import br.com.doalocal.exception.DuplicateCpfException;
 import br.com.doalocal.exception.FamiliaNotFoundException;
 import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Familia;
+import br.com.doalocal.util.PhoneFormats;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +16,6 @@ public final class FamiliaService {
 
     public static final int MAX_NOME_LENGTH = 100;
     public static final int MAX_MEMBROS = 100;
-    public static final int MAX_TELEFONE_LENGTH = 20;
     public static final int MAX_LOGRADOURO_LENGTH = 150;
     public static final int MAX_NUMERO_LENGTH = 20;
     public static final int MAX_BAIRRO_LENGTH = 100;
@@ -152,7 +152,7 @@ public final class FamiliaService {
         String normalizedQuantity = required(
                 quantidadeMembros, "members_required", "Informe a quantidade de membros."
         );
-        String normalizedPhone = required(telefone, "phone_required", "Informe o telefone.");
+        String requiredPhone = required(telefone, "phone_required", "Informe o telefone.");
         String normalizedStreet = required(logradouro, "address_required", "Informe o endereço.");
         String normalizedDistrict = required(bairro, "district_required", "Informe o bairro.");
         String normalizedCity = required(cidade, "city_required", "Informe a cidade.");
@@ -161,6 +161,13 @@ public final class FamiliaService {
         normalizedCpf = normalizeCpf(normalizedCpf);
         if (!isValidCpf(normalizedCpf)) {
             throw new ValidationException("invalid_cpf", "Informe um CPF válido.");
+        }
+
+        String normalizedPhone = PhoneFormats.normalizeMobile(requiredPhone);
+        if (normalizedPhone == null) {
+            throw new ValidationException(
+                    "invalid_phone", "Informe um telefone válido no formato (98) 99999-9999."
+            );
         }
 
         int members;
@@ -181,7 +188,6 @@ public final class FamiliaService {
         }
 
         validateLength(normalizedName, MAX_NOME_LENGTH, "name_too_long", "nome do responsável");
-        validateLength(normalizedPhone, MAX_TELEFONE_LENGTH, "phone_too_long", "telefone");
         validateLength(normalizedStreet, MAX_LOGRADOURO_LENGTH, "address_too_long", "endereço");
         validateLength(normalizedNumber, MAX_NUMERO_LENGTH, "number_too_long", "número");
         validateLength(normalizedDistrict, MAX_BAIRRO_LENGTH, "district_too_long", "bairro");
