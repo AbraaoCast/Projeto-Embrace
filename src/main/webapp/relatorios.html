@@ -29,27 +29,29 @@
                     <h1>Relatórios</h1>
                     <p>Gere e exporte relatórios de famílias, doações e entregas.</p>
                 </div>
-                <button class="btn btn-download" onclick="window.location.href='cadastrar-doacao.html'">
+                <button type="button" id="download-report" class="btn btn-download">
                     <i class="fa-solid fa-download"></i>
                     Baixar relatório PDF
                 </button>
             </div>
 
+            <div id="report-message" class="page-message" role="alert" aria-live="polite"></div>
+
             <div class="cards">
                 <div class="card">
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="total-families">0</div>
                     <div class="card-label">Total de famílias</div>
                 </div>
                 <div class="card">
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="total-donations">0</div>
                     <div class="card-label">Total de doações</div>
                 </div>
                 <div class="card">
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="total-deliveries">0</div>
                     <div class="card-label">Total de entregas</div>
                 </div>
                 <div class="card">
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="attended-families">0</div>
                     <div class="card-label">Total de famílias atendidas</div>
                 </div>
             </div>
@@ -58,31 +60,33 @@
                 <h3 style="font-size:14.5px; margin-bottom:14px;">Filtros</h3>
                 <div class="filters-row" style="margin-bottom:0;">
                     <div class="field">
-                        <label>Data inicial</label>
-                        <input type="text" value="01/03/2026" placeholder="DD/MM/AAAA"
-                               maxlength="10" inputmode="numeric" data-mask="date">
+                        <label for="report-start-date">Data inicial</label>
+                        <input type="text" id="report-start-date" name="dataInicial"
+                               placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric"
+                               data-mask="date">
                     </div>
                     <div class="field">
-                        <label>Data final</label>
-                        <input type="text" value="30/04/2026" placeholder="DD/MM/AAAA"
-                               maxlength="10" inputmode="numeric" data-mask="date">
+                        <label for="report-end-date">Data final</label>
+                        <input type="text" id="report-end-date" name="dataFinal"
+                               placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric"
+                               data-mask="date">
                     </div>
                     <div class="field">
-                        <label>Família</label>
-                        <select>
-                            <option>Todas as famílias</option>
+                        <label for="report-family">Família</label>
+                        <select id="report-family" name="familiaId">
+                            <option value="">Todas as famílias</option>
                         </select>
                     </div>
                     <div class="field">
-                        <label>Tipo de doação</label>
-                        <select>
-                            <option>Todos os tipos</option>
+                        <label for="report-donation">Doação</label>
+                        <select id="report-donation" name="doacaoId">
+                            <option value="">Todas as doações</option>
                         </select>
                     </div>
                 </div>
 
                 <div style="margin-top:16px;">
-                    <button class="btn btn-save" onclick="showToast('Relatório gerado com sucesso.')">Gerar relatório</button>
+                    <button type="button" id="generate-report" class="btn btn-save">Gerar relatório</button>
                 </div>
             </div>
 
@@ -105,5 +109,6 @@
 
     <script src="script/menu.js"></script>
     <script src="script/field-formats.js"></script>
+    <script src="script/relatorios.js"></script>
 </body>
 </html>
