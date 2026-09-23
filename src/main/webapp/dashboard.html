@@ -25,13 +25,15 @@
             <h1>Dashboard</h1>
             <p>Resumo geral das famílias, doações e entregas cadastradas.</p>
 
+            <div id="dashboard-message" class="dashboard-message" role="alert" aria-live="polite"></div>
+
             <div class="cards">
                 <div class="card">
                     <div class="card-icon" style="background:rgba(76,126,168,0.18); color:var(--save);">
                         <i class="fa-solid fa-people-group" ></i>
                     </div>
 
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="dashboard-total-families">0</div>
                     <div class="card-label">Total de famílias cadastradas</div>
                 </div>
 
@@ -40,7 +42,7 @@
                         <i class="fa-solid fa-cube"></i>
                     </div>
 
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="dashboard-total-donations">0</div>
                     <div class="card-label">Total de doações cadastradas</div>
                 </div>
 
@@ -49,7 +51,7 @@
                         <i class="fa-solid fa-truck"></i>
                     </div>
 
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="dashboard-total-deliveries">0</div>
                     <div class="card-label">Total de entregas realizadas</div>
                 </div>
 
@@ -58,7 +60,7 @@
                         <i class="fa-solid fa-people-group" ></i>
                     </div>
 
-                    <div class="card-value">5</div>
+                    <div class="card-value" id="dashboard-attended-families">0</div>
                     <div class="card-label">Total de famílias atendidas</div>
                 </div>
 
@@ -67,30 +69,8 @@
             <div class="card">
                 <h3>Atividades Recentes</h3>
 
-                <div class="lista-ativ">
-                    <div class="item-ativ">
-                        <div class="dot" style="background: var(--save);"></div>
-                        <div class="text-ativ">Nova família cadastrada — Francisco das Chagas Lima</div>
-                        <div class="time-ativ">02/04/2026 · 08:50</div>
-                    </div>
-
-                    <div class="item-ativ">
-                        <div class="dot" style="background: var(--save);"></div>
-                        <div class="text-ativ">Nova doação registrada — Cobertores</div>
-                        <div class="time-ativ">02/04/2026 · 08:50</div>
-                    </div>
-
-                    <div class="item-ativ">
-                        <div class="dot" style="background: var(--save);"></div>
-                        <div class="text-ativ">Entrega de doação realizada — Francisco das Chagas Lima</div>
-                        <div class="time-ativ">02/04/2026 · 08:50</div>
-                    </div>
-
-                    <div class="item-ativ">
-                        <div class="dot" style="background: var(--save);"></div>
-                        <div class="text-ativ">Nova família cadastrada — Francisco das Chagas Lima</div>
-                        <div class="time-ativ">02/04/2026 · 08:50</div>
-                    </div>
+                <div class="lista-ativ" id="dashboard-recent-activities">
+                    <div class="item-ativ empty-activity">Carregando atividades...</div>
                 </div>
 
             </div>
@@ -99,6 +79,7 @@
     </div>
 
     <script src="script/menu.js"></script>
+    <script src="script/dashboard.js"></script>
 
 </body>
 </html>
