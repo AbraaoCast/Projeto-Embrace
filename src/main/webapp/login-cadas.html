@@ -63,7 +63,19 @@
         justify-content: center;
         color: var(--text-sec);
         font-size: 12px;
-        }
+    }
+
+    .logo {
+        display:flex; align-items:center; gap:10px; margin-bottom:28px;
+    }
+
+    .logoimg {
+        width:34px; height:34px; border-radius:9px; object-fit: cover;
+    }
+
+    .nome-logo {
+        font-size:15px; font-weight:600; color: var(--text);
+    }
 
     /* Telas */
 
@@ -205,7 +217,8 @@
     <div class="container">
 
         <div class="logo">
-            <h1>Logo</h1>
+            <img class="logoimg" src="img/Logo-Embrace.png">
+            <span class="nome-logo">Embrace+</span>
         </div>
 
         <div id="auth-message" class="auth-message" role="alert" aria-live="polite"></div>

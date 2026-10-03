@@ -9,16 +9,29 @@
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--card);
-    border-radius: 0px 18px 18px 0px;
+    border-radius: 0px 14px 14px 0px;
     left: 0;
     position:relative;
     transition: all 0.5s ease;
-    min-width: 62px;
+    min-width: 56px;
+}
+
+#sidebar_content {
+    padding: 12px;
 }
 
 .logo {
-    width: 50px;
-    height: 50px;
+    display:flex; align-items:center; gap:10px; 
+    margin-bottom:24px; margin-top: 16px; padding-left: 16px;
+}
+
+.logoimg {
+    width:40px; height:40px; border-radius:8px; object-fit: cover;
+}
+
+.logo-text {
+    font-size: 18px !important;
+    font-weight: 600 !important;
 }
 
 #side-itens {
@@ -72,7 +85,7 @@
     position: absolute;
     top: 30px;
     right: -10px;
-    background:linear-gradient(135deg,var(--save),var(--report));
+    background: #47ADD9;
     color: var(--text);
     border: none;
     border-radius: 100%;
@@ -95,17 +108,18 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 14px;
+    font-weight: 600;
     transition: width .6s ease;
     height: 0px;
     margin-left: 4px;
 }
 
 #sidebar.open-sidebar {
-    min-width: 15%;
+    min-width: 10%;
 }
 
 #sidebar.open-sidebar .item-description {
-    width: 150px;
+    width: 140px;
     height: auto;
 }
 
