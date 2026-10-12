@@ -42,13 +42,31 @@ fetch('menu.html')
             });
 
 
+        
         // ABRIR E FECHAR SIDEBAR
 
+        const sidebarAtual = document.getElementById('sidebar');
+
+        // Na primeira abertura do sistema, inicia aberto.
+        // Nas próximas páginas, recupera o estado anterior.
+        const estadoSidebar = sessionStorage.getItem('sidebarAberto');
+
+        if (estadoSidebar === null || estadoSidebar === 'true') {
+            sidebarAtual.classList.add('open-sidebar');
+        } else {
+            sidebarAtual.classList.remove('open-sidebar');
+        }
+
         document.getElementById('open-btn').addEventListener('click', function () {
+            sidebarAtual.classList.toggle('open-sidebar');
 
-            document.getElementById('sidebar').classList.toggle('open-sidebar');
-
+            // Salva o estado para manter ao navegar entre páginas.
+            sessionStorage.setItem(
+                'sidebarAberto',
+                sidebarAtual.classList.contains('open-sidebar')
+            );
         });
+    
 
 
         // TÍTULO DA PÁGINA
