@@ -90,6 +90,10 @@ tbody tr:hover {
     background:var(--card-alt); color:var(--text-sec); border:1px solid var(--border);
 }
 
+.badge-empty {
+    color:#FCA5A5; background:rgba(180,88,92,.18); border-color:var(--delete);
+}
+
 .page-message {
     display:none; box-sizing:border-box; margin-bottom:16px;
     padding:11px 14px; border-radius:8px; font-size:13px;

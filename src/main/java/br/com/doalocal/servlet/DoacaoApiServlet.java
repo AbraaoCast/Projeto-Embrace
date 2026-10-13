@@ -25,11 +25,12 @@ public final class DoacaoApiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
+        response.setHeader("Cache-Control", "no-store");
 
         try {
             String path = request.getPathInfo();
             if (path == null || path.equals("/") || path.isBlank()) {
-                response.getWriter().write(DoacaoJson.list(doacaoService.listAll()));
+                response.getWriter().write(DoacaoJson.stockList(doacaoService.listStock()));
                 return;
             }
 

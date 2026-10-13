@@ -2,8 +2,10 @@ package br.com.doalocal.service;
 
 import br.com.doalocal.dao.DoacaoDao;
 import br.com.doalocal.exception.DoacaoNotFoundException;
+import br.com.doalocal.exception.DonationQuantityBelowDeliveredException;
 import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Doacao;
+import br.com.doalocal.model.DoacaoEstoque;
 import br.com.doalocal.util.DateFormats;
 
 import java.time.LocalDate;
@@ -45,6 +47,10 @@ public final class DoacaoService {
         return doacaoDao.findAll();
     }
 
+    public List<DoacaoEstoque> listStock() {
+        return doacaoDao.findAllStock();
+    }
+
     public Doacao findById(String rawId) {
         return findById(parseId(rawId));
     }
@@ -66,10 +72,18 @@ public final class DoacaoService {
         findById(id);
         DonationData data = validateAndNormalize(tipo, descricao, quantidade, dataDoacao, observacao);
 
-        if (!doacaoDao.update(
-                id, data.tipo(), data.descricao(), data.quantidade(), data.dataDoacao(), data.observacao()
-        )) {
-            throw new DoacaoNotFoundException();
+        try {
+            if (!doacaoDao.update(
+                    id, data.tipo(), data.descricao(), data.quantidade(), data.dataDoacao(), data.observacao()
+            )) {
+                throw new DoacaoNotFoundException();
+            }
+        } catch (DonationQuantityBelowDeliveredException exception) {
+            throw new ValidationException(
+                    "quantity_below_delivered",
+                    "A quantidade original não pode ser menor que as "
+                            + exception.getDeliveredQuantity() + " unidades já entregues."
+            );
         }
         return doacaoDao.findById(id).orElseThrow(DoacaoNotFoundException::new);
     }

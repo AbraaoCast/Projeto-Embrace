@@ -34,7 +34,8 @@
                 <div class="field">
                     <label for="nomeResponsavel">Nome do titular da família</label>
                     <input type="text" id="nomeResponsavel" name="nomeResponsavel"
-                           placeholder="Nome completo do titular" maxlength="100" required>
+                           placeholder="Nome completo do titular" maxlength="100"
+                           data-format="title-case" required>
                 </div>
                 
                 <div class="field-row">
@@ -54,7 +55,8 @@
                     <div class="field" style="flex:2;">
                         <label for="logradouro">Endereço</label>
                         <input type="text" id="logradouro" name="logradouro"
-                               placeholder="Rua, avenida..." maxlength="150" required>
+                               placeholder="Rua, avenida..." maxlength="150"
+                               data-format="title-case" required>
                     </div>
                     <div class="field">
                         <label for="numeroResidencia">Número</label>
@@ -67,12 +69,12 @@
                     <div class="field">
                         <label for="bairro">Bairro</label>
                         <input type="text" id="bairro" name="bairro" placeholder="Bairro"
-                               maxlength="100" required>
+                               maxlength="100" data-format="title-case" required>
                     </div>
                     <div class="field">
                         <label for="cidade">Cidade</label>
                         <input type="text" id="cidade" name="cidade" placeholder="Cidade"
-                               maxlength="100" required>
+                               maxlength="100" data-format="title-case" required>
                     </div>
                 </div>
 
@@ -98,7 +100,7 @@
     </div>    
     
     <script src="script/menu.js"></script>
-    <script src="script/field-formats.js"></script>
-    <script src="script/familia-form.js"></script>
+    <script src="script/field-formats.js?v=20261012-2"></script>
+    <script src="script/familia-form.js?v=20261012-2"></script>
 </body>
 </html>

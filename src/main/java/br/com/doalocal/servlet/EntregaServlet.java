@@ -42,7 +42,9 @@ public final class EntregaServlet extends HttpServlet {
         } catch (DoacaoNotFoundException exception) {
             redirectError(response, request, "donation_not_found");
         } catch (InsufficientDonationQuantityException exception) {
-            redirectError(response, request, "insufficient_quantity");
+            redirectError(response, request, exception.getAvailableQuantity() == 0
+                    ? "donation_exhausted"
+                    : "insufficient_quantity");
         } catch (RuntimeException exception) {
             LOGGER.log(Level.SEVERE, "Falha interna no registro de entrega.", exception);
             redirectError(response, request, "internal");

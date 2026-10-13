@@ -24,6 +24,7 @@ public final class EntregaApiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
+        response.setHeader("Cache-Control", "no-store");
 
         try {
             String path = request.getPathInfo();

@@ -14,14 +14,17 @@ async function carregarDoacoes() {
     tbody.replaceChildren();
 
     try {
-        const response = await fetch('api/doacoes', { headers: { Accept: 'application/json' } });
+        const response = await fetch('api/doacoes', {
+            cache: 'no-store',
+            headers: { Accept: 'application/json' }
+        });
         if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
-        const doacoes = await response.json();
+        const doacoes = await normalizeDonationStock(await response.json());
         if (doacoes.length === 0) {
             const row = tbody.insertRow();
             const cell = row.insertCell();
-            cell.colSpan = 6;
+            cell.colSpan = 8;
             cell.textContent = 'Nenhuma doação cadastrada.';
             return;
         }
@@ -30,10 +33,55 @@ async function carregarDoacoes() {
     } catch (error) {
         const row = tbody.insertRow();
         const cell = row.insertCell();
-        cell.colSpan = 6;
+        cell.colSpan = 8;
         cell.textContent = 'Erro ao carregar as doações.';
         console.error(error);
     }
+}
+
+async function normalizeDonationStock(donations) {
+    const needsFallback = donations.some(donation =>
+        donation.quantidadeOriginal === undefined
+        || donation.quantidadeEntregue === undefined
+        || donation.quantidadeDisponivel === undefined);
+
+    let availabilityById = new Map();
+    if (needsFallback) {
+        const response = await fetch('api/entregas/opcoes', {
+            cache: 'no-store',
+            headers: { Accept: 'application/json' }
+        });
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        const options = await response.json();
+        availabilityById = new Map(options.doacoes.map(item => [String(item.id), item]));
+    }
+
+    return donations.map(donation => {
+        const availability = availabilityById.get(String(donation.id)) || {};
+        const original = numericQuantity(
+            donation.quantidadeOriginal ?? donation.quantidade ?? availability.quantidadeRecebida
+        );
+        const delivered = numericQuantity(
+            donation.quantidadeEntregue ?? availability.quantidadeEntregue
+        );
+        const available = numericQuantity(
+            donation.quantidadeDisponivel
+                ?? availability.quantidadeDisponivel
+                ?? Math.max(original - delivered, 0)
+        );
+
+        return {
+            ...donation,
+            quantidadeOriginal: original,
+            quantidadeEntregue: delivered,
+            quantidadeDisponivel: available
+        };
+    });
+}
+
+function numericQuantity(value) {
+    const quantity = Number(value);
+    return Number.isFinite(quantity) ? quantity : 0;
 }
 
 function criarLinhaDoacao(doacao) {
@@ -42,7 +90,20 @@ function criarLinhaDoacao(doacao) {
 
     adicionarCelulaDoacao(row, doacao.tipo);
     adicionarCelulaDoacao(row, doacao.descricao);
-    adicionarCelulaDoacao(row, String(doacao.quantidade));
+    adicionarCelulaDoacao(row, String(doacao.quantidadeOriginal));
+
+    const availableCell = row.insertCell();
+    if (doacao.quantidadeDisponivel === 0) {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-empty';
+        badge.textContent = 'Esgotado';
+        badge.setAttribute('aria-label', 'Quantidade disponível: 0. Item esgotado.');
+        availableCell.appendChild(badge);
+    } else {
+        availableCell.textContent = String(doacao.quantidadeDisponivel);
+    }
+
+    adicionarCelulaDoacao(row, String(doacao.quantidadeEntregue));
     adicionarCelulaDoacao(row, DoaLocalFormats.formatDate(doacao.dataDoacao));
     adicionarCelulaDoacao(row, doacao.observacao || '—');
 

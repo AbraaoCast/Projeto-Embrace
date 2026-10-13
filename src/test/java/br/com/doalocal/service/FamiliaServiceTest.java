@@ -53,13 +53,19 @@ class FamiliaServiceTest {
 
     @Test
     void createsFamilyWithNormalizedDataAndBackendDate() {
-        Familia family = create("  Maria Silva  ", "529.982.247-25", "4");
+        Familia family = familiaService.create(
+                "  maria SILVA  ", "529.982.247-25", "4", "(11) 99999-0000",
+                "rua das flores", "10", "jardim américa", "são paulo"
+        );
 
         assertTrue(family.getId() > 0);
         assertEquals("Maria Silva", family.getNomeResponsavel());
         assertEquals("52998224725", family.getCpfResponsavel());
         assertEquals("11999990000", family.getTelefone());
         assertEquals(4, family.getQuantidadeMembros());
+        assertEquals("Rua Das Flores", family.getLogradouro());
+        assertEquals("Jardim América", family.getBairro());
+        assertEquals("São Paulo", family.getCidade());
         assertTrue(family.getDataCadastro() != null);
     }
 

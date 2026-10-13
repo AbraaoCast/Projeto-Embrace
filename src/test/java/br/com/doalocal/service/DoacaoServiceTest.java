@@ -3,6 +3,8 @@ package br.com.doalocal.service;
 import br.com.doalocal.config.DatabaseConfig;
 import br.com.doalocal.config.DatabaseInitializer;
 import br.com.doalocal.dao.DoacaoDao;
+import br.com.doalocal.dao.EntregaDao;
+import br.com.doalocal.dao.FamiliaDao;
 import br.com.doalocal.exception.DoacaoNotFoundException;
 import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Doacao;
@@ -16,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -146,6 +149,29 @@ class DoacaoServiceTest {
                 doacaoService.update(
                         "999", "Alimentos", "Arroz", "10", "21/09/2026", null
                 ));
+    }
+
+    @Test
+    void rejectsOriginalQuantityBelowAlreadyDeliveredTotal() {
+        Doacao donation = doacaoService.create(
+                "Roupas", "Camisetas", "5", "21/09/2026", null
+        );
+        var family = new FamiliaDao().insert(
+                "52998224725", "Maria Silva", 4, "11999990000", "Rua Central",
+                "10", "Centro", "São Paulo", LocalDateTime.of(2026, 9, 20, 10, 0)
+        );
+        new EntregaDao().insertWithAvailabilityCheck(
+                family.getId(), donation.getId(), 3, LocalDate.of(2026, 9, 22), null
+        );
+
+        ValidationException exception = assertThrows(ValidationException.class, () ->
+                doacaoService.update(
+                        String.valueOf(donation.getId()), "Roupas", "Camisetas", "2",
+                        "21/09/2026", null
+                ));
+
+        assertEquals("quantity_below_delivered", exception.getErrorCode());
+        assertEquals(5, doacaoService.findById(donation.getId()).getQuantidade());
     }
 
     @Test

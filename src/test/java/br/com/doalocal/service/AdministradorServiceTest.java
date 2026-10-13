@@ -61,7 +61,7 @@ class AdministradorServiceTest {
     @Test
     void registersValidAdministratorWithNormalizedEmailAndPasswordHash() {
         AdministradorAutenticado created = administradorService.register(
-                "  Ana Silva  ",
+                "  ana SILVA  ",
                 "  ANA@Example.COM ",
                 "Senha123",
                 "Senha123"

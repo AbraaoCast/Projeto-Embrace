@@ -7,6 +7,7 @@ const donationFormMessages = {
     invalid_quantity: 'Informe uma quantidade válida.',
     quantity_must_be_positive: 'A quantidade deve ser maior que zero.',
     quantity_too_large: 'A quantidade deve ser no máximo 1.000.000.',
+    quantity_below_delivered: 'A quantidade original não pode ser menor que a quantidade já entregue.',
     date_required: 'Informe a data da doação.',
     invalid_date: 'Informe uma data válida no formato DD/MM/AAAA.',
     observation_too_long: 'A observação deve possuir no máximo 1.000 caracteres.',

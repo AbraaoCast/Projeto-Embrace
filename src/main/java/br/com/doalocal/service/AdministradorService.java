@@ -7,6 +7,7 @@ import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Administrador;
 import br.com.doalocal.model.AdministradorAutenticado;
 import br.com.doalocal.util.PasswordHasher;
+import br.com.doalocal.util.TextFormats;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public final class AdministradorService {
     ) {
         validateRequiredRegistrationFields(nome, email, senha, confirmacaoSenha);
 
-        String normalizedName = nome.trim();
+        String normalizedName = TextFormats.titleCase(nome.trim());
         String normalizedEmail = normalizeEmail(email);
         validateName(normalizedName);
         validateEmail(normalizedEmail);

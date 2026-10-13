@@ -3,8 +3,10 @@ package br.com.doalocal.dao;
 import br.com.doalocal.config.DatabaseConfig;
 import br.com.doalocal.config.DatabaseInitializer;
 import br.com.doalocal.exception.InsufficientDonationQuantityException;
+import br.com.doalocal.exception.DonationQuantityBelowDeliveredException;
 import br.com.doalocal.model.Doacao;
 import br.com.doalocal.model.DoacaoDisponivel;
+import br.com.doalocal.model.DoacaoEstoque;
 import br.com.doalocal.model.Entrega;
 import br.com.doalocal.model.EntregaResumo;
 import br.com.doalocal.model.Familia;
@@ -17,6 +19,10 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -129,6 +135,53 @@ class EntregaDaoTest {
     }
 
     @Test
+    void preventsReducingOriginalQuantityBelowDeliveredTotal() {
+        Familia family = insertFamily("52998224725", "Maria Silva");
+        Doacao donation = insertDonation("Roupas", "Camisetas", 5);
+        entregaDao.insertWithAvailabilityCheck(
+                family.getId(), donation.getId(), 3, LocalDate.of(2026, 9, 22), null
+        );
+
+        DonationQuantityBelowDeliveredException exception = assertThrows(
+                DonationQuantityBelowDeliveredException.class,
+                () -> doacaoDao.update(
+                        donation.getId(), "Roupas", "Camisetas", 2,
+                        LocalDate.of(2026, 9, 20), null
+                )
+        );
+
+        assertEquals(3, exception.getDeliveredQuantity());
+        assertEquals(5, doacaoDao.findById(donation.getId()).orElseThrow().getQuantidade());
+        assertAvailability(donation.getId(), 5, 3, 2);
+    }
+
+    @Test
+    void serializesSimultaneousDeliveriesWithoutCreatingNegativeStock() throws Exception {
+        Familia family = insertFamily("52998224725", "Maria Silva");
+        Doacao donation = insertDonation("Alimentos", "Arroz", 5);
+        CountDownLatch ready = new CountDownLatch(2);
+        CountDownLatch start = new CountDownLatch(1);
+
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
+            Future<Boolean> first = executor.submit(() -> attemptConcurrentDelivery(
+                    ready, start, family.getId(), donation.getId()
+            ));
+            Future<Boolean> second = executor.submit(() -> attemptConcurrentDelivery(
+                    ready, start, family.getId(), donation.getId()
+            ));
+
+            ready.await();
+            start.countDown();
+
+            int successes = (first.get() ? 1 : 0) + (second.get() ? 1 : 0);
+            assertEquals(1, successes);
+        }
+
+        assertAvailability(donation.getId(), 5, 4, 1);
+        assertEquals(1, entregaDao.findAllSummaries().size());
+    }
+
+    @Test
     void listsEmptyAndMultipleDeliveriesNewestFirst() {
         assertTrue(entregaDao.findAllSummaries().isEmpty());
         Familia maria = insertFamily("52998224725", "Maria Silva");
@@ -170,5 +223,31 @@ class EntregaDaoTest {
         assertEquals(received, balance.quantidadeRecebida());
         assertEquals(delivered, balance.quantidadeEntregue());
         assertEquals(available, balance.quantidadeDisponivel());
+
+        DoacaoEstoque stock = doacaoDao.findAllStock().stream()
+                .filter(item -> item.id() == donationId)
+                .findFirst()
+                .orElseThrow();
+        assertEquals(received, stock.quantidadeOriginal());
+        assertEquals(delivered, stock.quantidadeEntregue());
+        assertEquals(available, stock.quantidadeDisponivel());
+    }
+
+    private boolean attemptConcurrentDelivery(
+            CountDownLatch ready,
+            CountDownLatch start,
+            long familyId,
+            long donationId
+    ) throws InterruptedException {
+        ready.countDown();
+        start.await();
+        try {
+            new EntregaDao().insertWithAvailabilityCheck(
+                    familyId, donationId, 4, LocalDate.of(2026, 9, 22), null
+            );
+            return true;
+        } catch (InsufficientDonationQuantityException exception) {
+            return false;
+        }
     }
 }

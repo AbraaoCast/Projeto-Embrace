@@ -51,6 +51,19 @@ function reportOption(value, label) {
 }
 
 async function generateReport(showSuccess = true) {
+    const startDate = document.getElementById('report-start-date').value.trim();
+    const endDate = document.getElementById('report-end-date').value.trim();
+    if (startDate && !DoaLocalFormats.isValidDate(startDate)) {
+        showReportMessage(reportMessages.invalid_start_date, 'error');
+        document.getElementById('report-start-date').focus();
+        return false;
+    }
+    if (endDate && !DoaLocalFormats.isValidDate(endDate)) {
+        showReportMessage(reportMessages.invalid_end_date, 'error');
+        document.getElementById('report-end-date').focus();
+        return false;
+    }
+
     try {
         const response = await fetch(`api/relatorios?${reportParameters()}`, {
             headers: { Accept: 'application/json' }

@@ -9,6 +9,7 @@ const deliveryFormMessages = {
     quantity_must_be_positive: 'A quantidade deve ser maior que zero.',
     quantity_too_large: 'A quantidade informada é muito grande.',
     insufficient_quantity: 'A quantidade informada é maior que a quantidade disponível para esta doação.',
+    donation_exhausted: 'Este item está esgotado e não possui quantidade disponível para entrega.',
     date_required: 'Informe a data da entrega.',
     invalid_date: 'Informe uma data válida no formato DD/MM/AAAA.',
     observation_too_long: 'A observação deve possuir no máximo 1.000 caracteres.',
@@ -72,11 +73,20 @@ function fillFamilyOptions(select, families) {
 function fillDonationOptions(select, donations) {
     select.replaceChildren(createOption('', donations.length ? 'Selecione a doação' : 'Nenhuma doação disponível'));
     donations.forEach(donation => {
-        select.appendChild(createOption(
+        const option = createOption(
             String(donation.id),
             `${donation.tipo} — ${donation.descricao} (disponível: ${donation.quantidadeDisponivel})`
-        ));
+        );
+        option.dataset.available = String(donation.quantidadeDisponivel);
+        select.appendChild(option);
     });
+}
+
+function updateDeliveryQuantityLimit() {
+    const select = document.getElementById('doacaoId');
+    const quantityInput = document.getElementById('quantidadeEntregue');
+    const available = Number(select.selectedOptions[0]?.dataset.available || 0);
+    quantityInput.max = available > 0 ? String(available) : '1000000';
 }
 
 function createOption(value, label) {
@@ -95,5 +105,6 @@ function showDeliveryQueryError() {
 
 document.addEventListener('DOMContentLoaded', () => {
     showDeliveryQueryError();
+    document.getElementById('doacaoId').addEventListener('change', updateDeliveryQuantityLimit);
     loadDeliveryOptions();
 });

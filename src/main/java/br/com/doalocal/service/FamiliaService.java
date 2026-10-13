@@ -6,6 +6,7 @@ import br.com.doalocal.exception.FamiliaNotFoundException;
 import br.com.doalocal.exception.ValidationException;
 import br.com.doalocal.model.Familia;
 import br.com.doalocal.util.PhoneFormats;
+import br.com.doalocal.util.TextFormats;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -147,15 +148,23 @@ public final class FamiliaService {
             String bairro,
             String cidade
     ) {
-        String normalizedName = required(nome, "name_required", "Informe o nome do responsável.");
+        String normalizedName = TextFormats.titleCase(
+                required(nome, "name_required", "Informe o nome do responsável.")
+        );
         String normalizedCpf = required(cpf, "cpf_required", "Informe o CPF do responsável.");
         String normalizedQuantity = required(
                 quantidadeMembros, "members_required", "Informe a quantidade de membros."
         );
         String requiredPhone = required(telefone, "phone_required", "Informe o telefone.");
-        String normalizedStreet = required(logradouro, "address_required", "Informe o endereço.");
-        String normalizedDistrict = required(bairro, "district_required", "Informe o bairro.");
-        String normalizedCity = required(cidade, "city_required", "Informe a cidade.");
+        String normalizedStreet = TextFormats.titleCase(
+                required(logradouro, "address_required", "Informe o endereço.")
+        );
+        String normalizedDistrict = TextFormats.titleCase(
+                required(bairro, "district_required", "Informe o bairro.")
+        );
+        String normalizedCity = TextFormats.titleCase(
+                required(cidade, "city_required", "Informe a cidade.")
+        );
         String normalizedNumber = optional(numeroResidencia);
 
         normalizedCpf = normalizeCpf(normalizedCpf);

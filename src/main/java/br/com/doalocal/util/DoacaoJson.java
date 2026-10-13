@@ -1,6 +1,7 @@
 package br.com.doalocal.util;
 
 import br.com.doalocal.model.Doacao;
+import br.com.doalocal.model.DoacaoEstoque;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public final class DoacaoJson {
                 json.length() == 1 ? json + item : json + "," + item) + "]";
     }
 
+    public static String stockList(List<DoacaoEstoque> doacoes) {
+        return doacoes.stream().map(DoacaoJson::stockObject).reduce("[", (json, item) ->
+                json.length() == 1 ? json + item : json + "," + item) + "]";
+    }
+
     public static String object(Doacao doacao) {
         return "{" +
                 "\"id\":" + doacao.getId() + "," +
@@ -23,6 +29,20 @@ public final class DoacaoJson {
                 "\"quantidade\":" + doacao.getQuantidade() + "," +
                 "\"dataDoacao\":\"" + DateFormats.formatUserDate(doacao.getDataDoacao()) + "\"," +
                 "\"observacao\":" + nullable(doacao.getObservacao()) +
+                "}";
+    }
+
+    private static String stockObject(DoacaoEstoque doacao) {
+        return "{" +
+                "\"id\":" + doacao.id() + "," +
+                "\"tipo\":\"" + escape(doacao.tipo()) + "\"," +
+                "\"descricao\":\"" + escape(doacao.descricao()) + "\"," +
+                "\"quantidade\":" + doacao.quantidadeOriginal() + "," +
+                "\"quantidadeOriginal\":" + doacao.quantidadeOriginal() + "," +
+                "\"quantidadeEntregue\":" + doacao.quantidadeEntregue() + "," +
+                "\"quantidadeDisponivel\":" + doacao.quantidadeDisponivel() + "," +
+                "\"dataDoacao\":\"" + DateFormats.formatUserDate(doacao.dataDoacao()) + "\"," +
+                "\"observacao\":" + nullable(doacao.observacao()) +
                 "}";
     }
 

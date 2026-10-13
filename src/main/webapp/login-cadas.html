@@ -221,9 +221,6 @@
             <span class="nome-logo">Embrace+</span>
         </div>
 
-        <div id="auth-message" class="auth-message" role="alert" aria-live="polite"></div>
-
-
         <!-- ================= LOGIN ================= -->
 
         <form class="login" id="tela-login" action="auth/login" method="post">
@@ -231,6 +228,8 @@
             <h1>Login do administrador</h1>
 
             <p>Acesse o sistema para gerenciar famílias e doações.</p>
+
+            <div id="login-message" class="auth-message" role="alert" aria-live="polite"></div>
 
             <div class="email">
                 <label for="emailLogin">Email</label>
@@ -268,12 +267,14 @@
 
             <p>Crie sua conta para acessar o sistema.</p>
 
+            <div id="register-message" class="auth-message" role="alert" aria-live="polite"></div>
+
             <!-- Nome -->
 
             <div class="nome">
                 <label for="nome">Nome</label>
                 <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo"
-                       maxlength="100" autocomplete="name" required>
+                       maxlength="100" autocomplete="name" data-format="title-case" required>
             </div>
 
 
@@ -327,26 +328,56 @@
 
     </div>
 
-
-
+    <script src="script/field-formats.js?v=20261012-2"></script>
     <script>
 
         // ==============================
         // TROCA DE TELAS
         // ==============================
 
+        const loginForm = document.getElementById('tela-login');
+        const registerForm = document.getElementById('tela-cadastro');
+        const loginMessage = document.getElementById('login-message');
+        const registerMessage = document.getElementById('register-message');
+
+        function clearAuthMessage(element) {
+            element.textContent = '';
+            element.className = 'auth-message';
+        }
+
+        function resetPasswordVisibility(input, icon) {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+
+        function clearAuthUrlState() {
+            if (window.location.search) {
+                window.history.replaceState(null, '', window.location.pathname);
+            }
+        }
+
         function mostrarCadastro() {
-
-            document.querySelector('.login').style.display = 'none';
-            document.querySelector('.cadastro').style.display = 'block';
-
+            loginForm.reset();
+            clearAuthMessage(loginMessage);
+            clearAuthMessage(registerMessage);
+            resetPasswordVisibility(senhaLogin, alternarSenhaLogin);
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            clearAuthUrlState();
         }
 
 
         function mostrarLogin() {
 
-            document.querySelector('.cadastro').style.display = 'none';
-            document.querySelector('.login').style.display = 'block';
+            registerForm.reset();
+            clearAuthMessage(registerMessage);
+            clearAuthMessage(loginMessage);
+            resetPasswordVisibility(senhaCadastro, alternarSenhaCadastro);
+            resetPasswordVisibility(confSenha, alternarConfSenha);
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            clearAuthUrlState();
 
         }
 
@@ -456,14 +487,16 @@
             registered: 'Cadastro realizado com sucesso. Agora você pode entrar.',
             logged_out: 'Você saiu do sistema com segurança.'
         };
-        const messageElement = document.getElementById('auth-message');
         const errorCode = query.get('error');
         const successCode = query.get('success');
+        const initialMode = query.get('mode') === 'register' ? 'register' : 'login';
 
-        if (query.get('mode') === 'register') {
-            mostrarCadastro();
+        if (initialMode === 'register') {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
         }
 
+        const messageElement = initialMode === 'register' ? registerMessage : loginMessage;
         if (errorCode && errorMessages[errorCode]) {
             messageElement.textContent = errorMessages[errorCode];
             messageElement.classList.add('error');
@@ -471,6 +504,16 @@
             messageElement.textContent = successMessages[successCode];
             messageElement.classList.add('success');
         }
+
+        [loginForm, registerForm].forEach(form => {
+            form.addEventListener('input', () => {
+                clearAuthMessage(form === loginForm ? loginMessage : registerMessage);
+                clearAuthUrlState();
+            }, { once: true });
+            form.addEventListener('submit', () => {
+                clearAuthMessage(form === loginForm ? loginMessage : registerMessage);
+            });
+        });
 
     </script>
 
