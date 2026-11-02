@@ -1,4 +1,4 @@
-# DoaLocal
+# Embrace+
 
 Aplicação Java Web acadêmica para gerenciamento de famílias, doações e entregas.
 
