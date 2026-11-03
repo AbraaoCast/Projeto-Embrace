@@ -27,6 +27,12 @@ public final class AuthFilter implements Filter {
             "/api/health"
     );
 
+    private static final Set<String> PUBLIC_RESOURCE_PREFIXES = Set.of(
+            "/style/",
+            "/script/",
+            "/img/"
+    );
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -65,10 +71,8 @@ public final class AuthFilter implements Filter {
         return uri.substring(contextPath.length());
     }
 
-    private static boolean isPublic(String path) {
+    static boolean isPublic(String path) {
         return PUBLIC_PATHS.contains(path)
-                || path.startsWith("/style/")
-                || path.startsWith("/script/")
-                || path.startsWith("/images/");
+                || PUBLIC_RESOURCE_PREFIXES.stream().anyMatch(path::startsWith);
     }
 }
