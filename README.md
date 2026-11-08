@@ -1,6 +1,6 @@
 # Embrace+
 
-Aplicação Java Web acadêmica para gerenciamento de famílias, doações e entregas.
+Aplicação Java Web acadêmica da Atividade Extensionista da Uninter para gerenciamento de famílias, doações e entregas.
 
 ## Requisitos
 
